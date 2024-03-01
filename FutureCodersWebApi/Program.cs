@@ -1,18 +1,21 @@
-using FutureCodersWebApi.Repositories;
-using Microsoft.EntityFrameworkCore;
+using FutureCodersWebApi.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddControllers()
+    .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly)
     .AddNewtonsoftJson();
+//AddApplicationPart(), ozelligi ile birlikte controller yapisinin diger projeler dahilinde kullanilabilmesine olanak saglanir.)
 
 
+// IoC Semasindaki Register blogu
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.ConfigureSqlContext(builder.Configuration);
+builder.Services.ConfigureRepositoryManager();
+builder.Services.ConfigureServiceManager();
 
-builder.Services.AddDbContext<RepositoryContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("sqlConnection")));
 
 var app = builder.Build();
 

@@ -1,20 +1,21 @@
-﻿using FutureCodersWebApi.Models;
-using FutureCodersWebApi.Repositories;
+﻿using Entities.Models;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Services.Contract;
 
-namespace FutureCodersWebApi.Controllers
+namespace Presentation.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/courses")]
     public class CoursesController : ControllerBase
     {
-        private readonly RepositoryContext _repositoryContext;
+        private readonly IServiceManager _manager;
 
-        public CoursesController(RepositoryContext repositoryContext)
+        public CoursesController(IServiceManager manager)
         {
-            _repositoryContext = repositoryContext;
+            _manager = manager;
         }
+
 
         // Get
         [HttpGet]
@@ -22,7 +23,7 @@ namespace FutureCodersWebApi.Controllers
         {
             try
             {
-                var courses = _repositoryContext.Courses.ToList();
+                var courses = _manager.CourseService.GetAllCourses(false);
                 return Ok(courses);
             }
             catch (Exception ex)
@@ -37,10 +38,10 @@ namespace FutureCodersWebApi.Controllers
         {
             try
             {
-                var course = _repositoryContext
-                .Courses
-                .Where(c => c.Id.Equals(id))
-                .SingleOrDefault();
+                var course = _manager
+                .CourseService
+                .GetOneCourseById(id, false);
+
 
                 if (course == null)
                     return NotFound(); //400
@@ -62,8 +63,7 @@ namespace FutureCodersWebApi.Controllers
                 if (course == null)
                     return BadRequest(); //400
 
-                _repositoryContext.Courses.Add(course);
-                _repositoryContext.SaveChanges();
+                _manager.CourseService.CreateOneCourse(course);
 
                 return StatusCode(201, course);
             }
@@ -79,29 +79,12 @@ namespace FutureCodersWebApi.Controllers
         {
             try
             {
-                // check course?
-                var entity = _repositoryContext
-                    .Courses
-                    .Where(c => c.Id.Equals(id))
-                    .SingleOrDefault();
-
-                if (entity == null)
-                    return NotFound(); //404
-
-                // check id?
-                if (id != course.Id)
+                if (course == null)
                     return BadRequest(); //400
 
-                // mapping
-                entity.CourseName = course.CourseName;
-                entity.CourseDescription = course.CourseDescription;
-                entity.CourseThumbnail = course.CourseThumbnail;
-                entity.IsRequire = course.IsRequire;
-                entity.Rank = course.Rank;
+                _manager.CourseService.UpdateOneCourse(id, course, true);
 
-                _repositoryContext.SaveChanges();
-                return Ok();
-
+                return NoContent(); //204
             }
             catch (Exception ex)
             {
@@ -115,20 +98,9 @@ namespace FutureCodersWebApi.Controllers
         {
             try
             {
-                var course = _repositoryContext
-                .Courses
-                .Where(c => c.Id.Equals(id))
-                .SingleOrDefault();
+                _manager.CourseService.DeleteOneCourse(id, false);
+                //CourseManager uzerinde DeleteOneCourse metodunda entity kontrolu yapidligi icin burada tekrar yapmaya gerek yok!
 
-                if (course == null)
-                    return NotFound(new
-                    {
-                        statusCode = 404,
-                        message = $"Book with id:{id} could not found!"
-                    });
-
-                _repositoryContext.Courses.Remove(course);
-                _repositoryContext.SaveChanges();
                 return NoContent();
             }
             catch (Exception ex)
@@ -142,19 +114,21 @@ namespace FutureCodersWebApi.Controllers
         [HttpPatch("{id:int}")]
         public IActionResult PartiallyUpdateOneBook([FromRoute(Name = "id")] int id, [FromBody] JsonPatchDocument<Course> coursePatch)
         {
+            //JsonPatchDocument<Course> : JSON verilerini bir varlık sinifi(orn. Course) uzerinde uygulamak icin kullanilir
+
             try
             {
                 //check entity
-                var entity = _repositoryContext
-                    .Courses
-                    .Where(c => c.Id.Equals(id))
-                    .SingleOrDefault();
+                var entity = _manager
+                    .CourseService
+                    .GetOneCourseById(id, true);
 
                 if (entity is null)
-                    return NotFound();
+                    return NotFound(); //404
 
-                coursePatch.ApplyTo(entity);
-                _repositoryContext.SaveChanges();
+                coursePatch.ApplyTo(entity); //gelen JSON yamalarini "entity" nesnesine uygular
+
+                _manager.CourseService.UpdateOneCourse(id, entity, true);
 
                 return NoContent();
             }
