@@ -1,4 +1,4 @@
-﻿namespace FutureCodersWebApi.Models
+﻿namespace Entities.Models
 {
     public class Course
     {

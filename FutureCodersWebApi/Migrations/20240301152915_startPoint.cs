@@ -24,6 +24,21 @@ namespace FutureCodersWebApi.Migrations
                 {
                     table.PrimaryKey("PK_Courses", x => x.Id);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Courses",
+                columns: new[] { "Id", "CourseDescription", "CourseName", "CourseThumbnail", "IsRequire", "Rank" },
+                values: new object[] { 1, "This course is a react course", "React", "", true, 0 });
+
+            migrationBuilder.InsertData(
+                table: "Courses",
+                columns: new[] { "Id", "CourseDescription", "CourseName", "CourseThumbnail", "IsRequire", "Rank" },
+                values: new object[] { 2, "This course is a flutter course", "Flutter", "", false, 1 });
+
+            migrationBuilder.InsertData(
+                table: "Courses",
+                columns: new[] { "Id", "CourseDescription", "CourseName", "CourseThumbnail", "IsRequire", "Rank" },
+                values: new object[] { 3, "This course is a bootstrap 5 course", "Bootstrap", "", false, 0 });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

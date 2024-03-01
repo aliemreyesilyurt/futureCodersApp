@@ -1,15 +1,14 @@
-﻿using FutureCodersWebApi.Models;
-using FutureCodersWebApi.Repositories.Config;
+﻿using Entities.Models;
 using Microsoft.EntityFrameworkCore;
+using Repositories.EFCore.Config;
 
-namespace FutureCodersWebApi.Repositories
+namespace Repositories.EFCore
 {
     public class RepositoryContext : DbContext
     {
         public RepositoryContext(DbContextOptions options) :
             base(options)
         {
-
         }
         public DbSet<Course> Courses { get; set; }
 
