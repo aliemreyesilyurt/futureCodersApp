@@ -7,15 +7,14 @@ namespace Services
     public class CourseManager : ICourseService
     {
         private readonly IRepositoryManager _manager;
-        public CourseManager(IRepositoryManager manager)
+        private readonly ILoggerService _logger;
+        public CourseManager(IRepositoryManager manager, ILoggerService logger)
         {
             _manager = manager;
+            _logger = logger;
         }
         public Course CreateOneCourse(Course course)
         {
-            if (course == null)
-                throw new ArgumentNullException(nameof(course));
-
             _manager.Course.CreateOneCourse(course);
             _manager.Save();
 
@@ -30,7 +29,11 @@ namespace Services
                 .GetOneCourseById(id, trackChanges);
 
             if (entity is null)
-                throw new Exception($"Course with id:{id} could not found.");
+            {
+                string msg = $"Course with id:{id} could not found.";
+                _logger.LogInfo(msg);
+                throw new Exception(msg);
+            }
 
             _manager.Course.DeleteOneCourse(entity);
             _manager.Save();
@@ -55,7 +58,11 @@ namespace Services
                 .GetOneCourseById(id, trackChanges);
 
             if (entity is null)
-                throw new Exception($"Course with id:{id} could not found.");
+            {
+                string msg = $"Course with id:{id} could not found.";
+                _logger.LogInfo(msg);
+                throw new Exception(msg);
+            }
 
             //check params
             if (course is null)
