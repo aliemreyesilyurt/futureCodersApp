@@ -7,9 +7,10 @@ namespace Services
     {
         private readonly Lazy<ICourseService> _courseService;
 
-        public ServiceManager(IRepositoryManager repositoryManager)
+        public ServiceManager(IRepositoryManager repositoryManager,
+            ILoggerService logger)
         {
-            _courseService = new Lazy<ICourseService>(() => new CourseManager(repositoryManager));
+            _courseService = new Lazy<ICourseService>(() => new CourseManager(repositoryManager, logger));
         }
 
         public ICourseService CourseService => _courseService.Value;
