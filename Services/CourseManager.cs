@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.Exceptions;
+using Entities.Models;
 using Repositories.Contracts;
 using Services.Contract;
 
@@ -29,11 +30,7 @@ namespace Services
                 .GetOneCourseById(id, trackChanges);
 
             if (entity is null)
-            {
-                string msg = $"Course with id:{id} could not found.";
-                _logger.LogInfo(msg);
-                throw new Exception(msg);
-            }
+                throw new CourseNotFoundException(id);
 
             _manager.Course.DeleteOneCourse(entity);
             _manager.Save();
@@ -47,7 +44,10 @@ namespace Services
 
         public Course GetOneCourseById(int id, bool trackChanges)
         {
-            return _manager.Course.GetOneCourseById(id, trackChanges);
+            var course = _manager.Course.GetOneCourseById(id, trackChanges);
+            if (course is null)
+                throw new CourseNotFoundException(id);
+            return course;
         }
 
         public void UpdateOneCourse(int id, Course course, bool trackChanges)
@@ -58,11 +58,7 @@ namespace Services
                 .GetOneCourseById(id, trackChanges);
 
             if (entity is null)
-            {
-                string msg = $"Course with id:{id} could not found.";
-                _logger.LogInfo(msg);
-                throw new Exception(msg);
-            }
+                throw new CourseNotFoundException(id);
 
             //check params
             if (course is null)
