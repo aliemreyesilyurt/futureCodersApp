@@ -1,4 +1,6 @@
-﻿using Entities.Exceptions;
+﻿using AutoMapper;
+using Entities.DataTransferObjects;
+using Entities.Exceptions;
 using Entities.Models;
 using Repositories.Contracts;
 using Services.Contract;
@@ -9,10 +11,12 @@ namespace Services
     {
         private readonly IRepositoryManager _manager;
         private readonly ILoggerService _logger;
-        public CourseManager(IRepositoryManager manager, ILoggerService logger)
+        private readonly IMapper _mapper;
+        public CourseManager(IRepositoryManager manager, ILoggerService logger, IMapper mapper)
         {
             _manager = manager;
             _logger = logger;
+            _mapper = mapper;
         }
         public Course CreateOneCourse(Course course)
         {
@@ -50,7 +54,7 @@ namespace Services
             return course;
         }
 
-        public void UpdateOneCourse(int id, Course course, bool trackChanges)
+        public void UpdateOneCourse(int id, CourseDtoForUpdate courseDto, bool trackChanges)
         {
             //check entity
             var entity = _manager
@@ -60,15 +64,8 @@ namespace Services
             if (entity is null)
                 throw new CourseNotFoundException(id);
 
-            //check params
-            if (course is null)
-                throw new ArgumentNullException(nameof(course));
-
-            entity.CourseName = course.CourseName;
-            entity.CourseDescription = course.CourseDescription;
-            entity.CourseThumbnail = course.CourseThumbnail;
-            entity.IsRequire = course.IsRequire;
-            entity.Rank = course.Rank;
+            //mapping
+            entity = _mapper.Map<Course>(courseDto);
 
             _manager.Course.Update(entity);
             _manager.Save();

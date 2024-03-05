@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.DataTransferObjects;
+using Entities.Models;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contract;
@@ -54,12 +55,12 @@ namespace Presentation.Controllers
 
         //Put
         [HttpPut("{id:int}")]
-        public IActionResult UpdateOneCourse([FromRoute(Name = "id")] int id, [FromBody] Course course)
+        public IActionResult UpdateOneCourse([FromRoute(Name = "id")] int id, [FromBody] CourseDtoForUpdate courseDto)
         {
-            if (course == null)
+            if (courseDto == null)
                 return BadRequest(); //400
 
-            _manager.CourseService.UpdateOneCourse(id, course, true);
+            _manager.CourseService.UpdateOneCourse(id, courseDto, true);
 
             return NoContent(); //204
         }
@@ -90,7 +91,9 @@ namespace Presentation.Controllers
 
             coursePatch.ApplyTo(entity); //gelen JSON yamalarini "entity" nesnesine uygular
 
-            _manager.CourseService.UpdateOneCourse(id, entity, true);
+            _manager.CourseService.UpdateOneCourse(id,
+                new CourseDtoForUpdate(entity.Id, entity.CourseName, entity.CourseDescription, entity.CourseThumbnail, entity.IsRequire, entity.Rank),
+                true);
 
             return NoContent();
         }

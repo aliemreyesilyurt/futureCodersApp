@@ -1,4 +1,5 @@
-﻿using Repositories.Contracts;
+﻿using AutoMapper;
+using Repositories.Contracts;
 using Services.Contract;
 
 namespace Services
@@ -8,9 +9,10 @@ namespace Services
         private readonly Lazy<ICourseService> _courseService;
 
         public ServiceManager(IRepositoryManager repositoryManager,
-            ILoggerService logger)
+            ILoggerService logger,
+            IMapper mapper)
         {
-            _courseService = new Lazy<ICourseService>(() => new CourseManager(repositoryManager, logger));
+            _courseService = new Lazy<ICourseService>(() => new CourseManager(repositoryManager, logger, mapper));
         }
 
         public ICourseService CourseService => _courseService.Value;
