@@ -21,93 +21,57 @@ namespace Presentation.Controllers
         [HttpGet]
         public IActionResult GetAllCourses()
         {
-            try
-            {
-                var courses = _manager.CourseService.GetAllCourses(false);
-                return Ok(courses);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            var courses = _manager.CourseService.GetAllCourses(false);
+            return Ok(courses);
         }
 
 
         [HttpGet("{id:int}")]
         public IActionResult GetOneCourseById([FromRoute(Name = "id")] int id)
         {
-            try
-            {
-                var course = _manager
-                .CourseService
-                .GetOneCourseById(id, false);
+            var course = _manager
+            .CourseService
+            .GetOneCourseById(id, false);
 
 
-                if (course == null)
-                    return NotFound(); //400
+            if (course == null)
+                return NotFound(); //400
 
-                return Ok(course);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            return Ok(course);
         }
 
         // Post
         [HttpPost]
         public IActionResult CreateOneCourse([FromBody] Course course)
         {
-            try
-            {
-                if (course == null)
-                    return BadRequest(); //400
+            if (course == null)
+                return BadRequest(); //400
 
-                _manager.CourseService.CreateOneCourse(course);
+            _manager.CourseService.CreateOneCourse(course);
 
-                return StatusCode(201, course);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return StatusCode(201, course);
         }
 
         //Put
         [HttpPut("{id:int}")]
         public IActionResult UpdateOneCourse([FromRoute(Name = "id")] int id, [FromBody] Course course)
         {
-            try
-            {
-                if (course == null)
-                    return BadRequest(); //400
+            if (course == null)
+                return BadRequest(); //400
 
-                _manager.CourseService.UpdateOneCourse(id, course, true);
+            _manager.CourseService.UpdateOneCourse(id, course, true);
 
-                return NoContent(); //204
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            return NoContent(); //204
         }
 
         //Delete
         [HttpDelete("{id:int}")]
         public IActionResult DeleteOneCourseById([FromRoute(Name = "id")] int id)
         {
-            try
-            {
-                _manager.CourseService.DeleteOneCourse(id, false);
-                //CourseManager uzerinde DeleteOneCourse metodunda entity kontrolu yapidligi icin burada tekrar yapmaya gerek yok!
+            _manager.CourseService.DeleteOneCourse(id, false);
+            //CourseManager uzerinde DeleteOneCourse metodunda entity kontrolu yapidligi icin burada tekrar yapmaya gerek yok!
 
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-
+            return NoContent();
         }
 
         //Patch
@@ -116,26 +80,19 @@ namespace Presentation.Controllers
         {
             //JsonPatchDocument<Course> : JSON verilerini bir varlık sinifi(orn. Course) uzerinde uygulamak icin kullanilir
 
-            try
-            {
-                //check entity
-                var entity = _manager
-                    .CourseService
-                    .GetOneCourseById(id, true);
+            //check entity
+            var entity = _manager
+                .CourseService
+                .GetOneCourseById(id, true);
 
-                if (entity is null)
-                    return NotFound(); //404
+            if (entity is null)
+                return NotFound(); //404
 
-                coursePatch.ApplyTo(entity); //gelen JSON yamalarini "entity" nesnesine uygular
+            coursePatch.ApplyTo(entity); //gelen JSON yamalarini "entity" nesnesine uygular
 
-                _manager.CourseService.UpdateOneCourse(id, entity, true);
+            _manager.CourseService.UpdateOneCourse(id, entity, true);
 
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            return NoContent();
         }
     }
 }
