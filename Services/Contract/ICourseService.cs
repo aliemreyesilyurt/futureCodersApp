@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.DataTransferObjects;
+using Entities.Models;
 
 namespace Services.Contract
 {
@@ -7,7 +8,7 @@ namespace Services.Contract
         IEnumerable<Course> GetAllCourses(bool trackChanges);
         Course GetOneCourseById(int id, bool trackChanges);
         Course CreateOneCourse(Course course);
-        void UpdateOneCourse(int id, Course course, bool trackChanges);
+        void UpdateOneCourse(int id, CourseDtoForUpdate courseDto, bool trackChanges);
         void DeleteOneCourse(int id, bool trackChanges);
     }
 }
