@@ -9,6 +9,7 @@ namespace FutureCodersWebApi.Utilities.AutoMapper
         public MappingProfile()
         {
             CreateMap<CourseDtoForUpdate, Course>();
+            CreateMap<Course, CourseDto>();
         }
     }
 }
