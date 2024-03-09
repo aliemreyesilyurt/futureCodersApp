@@ -2,6 +2,7 @@
 using Entities.DataTransferObjects;
 using Entities.Exceptions;
 using Entities.Models;
+using Entities.RequestFeatures;
 using Repositories.Contracts;
 using Services.Contract;
 
@@ -39,10 +40,15 @@ namespace Services
 
         }
 
-        public async Task<IEnumerable<CourseDto>> GetAllCoursesAsync(bool trackChanges)
+        public async Task<(IEnumerable<CourseDto> courses, MetaData metaData)> GetAllCoursesAsync(CourseParameters courseParameters, bool trackChanges)
         {
-            var courses = await _manager.Course.GetAllCoursesAsync(trackChanges);
-            return _mapper.Map<IEnumerable<CourseDto>>(courses);
+            var coursesWithMetaData = await _manager
+                .Course
+                .GetAllCoursesAsync(courseParameters, trackChanges);
+
+            var coursesDto = _mapper.Map<IEnumerable<CourseDto>>(coursesWithMetaData);
+
+            return (coursesDto, coursesWithMetaData.MetaData);
         }
 
         public async Task<CourseDto> GetOneCourseByIdAsync(int id, bool trackChanges)

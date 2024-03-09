@@ -1,4 +1,5 @@
 ﻿using Entities.Models;
+using Entities.RequestFeatures;
 using Microsoft.EntityFrameworkCore;
 using Repositories.Contracts;
 
@@ -17,10 +18,15 @@ namespace Repositories.EFCore
 
         public void UpdateOneCourse(Course course) => Update(course);
 
-        public async Task<IEnumerable<Course>> GetAllCoursesAsync(bool trackChanges) =>
-            await FindAll(trackChanges)
-            .OrderBy(c => c.Id)
-            .ToListAsync();
+        public async Task<PagedList<Course>> GetAllCoursesAsync(CourseParameters courseParameters, bool trackChanges)
+        {
+            var course = await FindAll(trackChanges)
+                .OrderBy(b => b.Id)
+                .ToListAsync();
+
+            return PagedList<Course>
+                .ToPagedList(course, courseParameters.PageNumber, courseParameters.PageSize);
+        }
 
         public async Task<Course> GetOneCourseByIdAsync(int id, bool trackChanges) =>
             await FindByCondition(c => c.Id.Equals(id), trackChanges)
