@@ -1,8 +1,14 @@
 using FutureCodersWebApi.Extensions;
+using Microsoft.AspNetCore.Mvc;
 using NLog;
 using Services.Contract;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.SuppressModelStateInvalidFilter = true;
+});
 
 
 builder.Services.AddControllers(config =>
@@ -24,6 +30,7 @@ builder.Services.ConfigureSqlContext(builder.Configuration);
 builder.Services.ConfigureRepositoryManager();
 builder.Services.ConfigureServiceManager();
 builder.Services.ConfigureLoggerService();
+builder.Services.AddAutoMapper(typeof(Program));
 
 
 var app = builder.Build();

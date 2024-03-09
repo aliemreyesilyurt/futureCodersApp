@@ -1,5 +1,4 @@
 ﻿using Entities.DataTransferObjects;
-using Entities.Models;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contract;
@@ -43,12 +42,15 @@ namespace Presentation.Controllers
 
         // Post
         [HttpPost]
-        public IActionResult CreateOneCourse([FromBody] Course course)
+        public IActionResult CreateOneCourse([FromBody] CourseDtoForInsertion courseDto)
         {
-            if (course == null)
+            if (courseDto is null)
                 return BadRequest(); //400
 
-            _manager.CourseService.CreateOneCourse(course);
+            if (!ModelState.IsValid)
+                return UnprocessableEntity(ModelState); //422
+
+            var course = _manager.CourseService.CreateOneCourse(courseDto);
 
             return StatusCode(201, course);
         }
@@ -60,7 +62,10 @@ namespace Presentation.Controllers
             if (courseDto == null)
                 return BadRequest(); //400
 
-            _manager.CourseService.UpdateOneCourse(id, courseDto, true);
+            if (!ModelState.IsValid)
+                return UnprocessableEntity(ModelState); //422
+
+            _manager.CourseService.UpdateOneCourse(id, courseDto, false);
 
             return NoContent(); //204
         }
@@ -77,23 +82,20 @@ namespace Presentation.Controllers
 
         //Patch
         [HttpPatch("{id:int}")]
-        public IActionResult PartiallyUpdateOneBook([FromRoute(Name = "id")] int id, [FromBody] JsonPatchDocument<Course> coursePatch)
+        public IActionResult PartiallyUpdateOneCourse([FromRoute(Name = "id")] int id, [FromBody] JsonPatchDocument<CourseDtoForUpdate> coursePatch)
         {
             //JsonPatchDocument<Course> : JSON verilerini bir varlık sinifi(orn. Course) uzerinde uygulamak icin kullanilir
 
-            //check entity
-            var entity = _manager
-                .CourseService
-                .GetOneCourseById(id, true);
+            if (coursePatch is null)
+                return BadRequest(); //400
 
-            if (entity is null)
-                return NotFound(); //404
+            var result = _manager.CourseService.GetOneCourseForPatch(id, false); //(CourseDtoForUpdate, Course)
 
-            coursePatch.ApplyTo(entity); //gelen JSON yamalarini "entity" nesnesine uygular
+            coursePatch.ApplyTo(result.courseDtoForUpdate, ModelState); //gelen JSON yamalarini "entity" nesnesine uygular
 
-            _manager.CourseService.UpdateOneCourse(id,
-                new CourseDtoForUpdate(entity.Id, entity.CourseName, entity.CourseDescription, entity.CourseThumbnail, entity.IsRequire, entity.Rank),
-                true);
+            TryValidateModel(result.courseDtoForUpdate);
+
+            _manager.CourseService.SaveChangesForUpdate(result.courseDtoForUpdate, result.course);
 
             return NoContent();
         }

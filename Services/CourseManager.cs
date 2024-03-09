@@ -18,12 +18,15 @@ namespace Services
             _logger = logger;
             _mapper = mapper;
         }
-        public Course CreateOneCourse(Course course)
+        public CourseDto CreateOneCourse(CourseDtoForInsertion courseDto)
         {
-            _manager.Course.CreateOneCourse(course);
+            var entity = _mapper.Map<Course>(courseDto);
+            _manager.Course.CreateOneCourse(entity);
             _manager.Save();
 
-            return course;
+
+            return _mapper.Map<CourseDto>(entity);
+            //ustteki kullanimda entity(Course) CourseDto'ya donusturulur
         }
 
         public void DeleteOneCourse(int id, bool trackChanges)
@@ -47,12 +50,26 @@ namespace Services
             return _mapper.Map<IEnumerable<CourseDto>>(courses);
         }
 
-        public Course GetOneCourseById(int id, bool trackChanges)
+        public CourseDto GetOneCourseById(int id, bool trackChanges)
         {
             var course = _manager.Course.GetOneCourseById(id, trackChanges);
             if (course is null)
                 throw new CourseNotFoundException(id);
-            return course;
+            return _mapper.Map<CourseDto>(course);
+        }
+
+        public (CourseDtoForUpdate courseDtoForUpdate, Course course) GetOneCourseForPatch(int id, bool trackChanges)
+        {
+            var course = _manager.Course.GetOneCourseById(id, trackChanges);
+
+            if (course is null)
+                throw new CourseNotFoundException(id);
+
+            var courseDtoForUpdate = _mapper.Map<CourseDtoForUpdate>(course);
+
+            return (courseDtoForUpdate, course); // (Tuple)
+            /*Bu metod hem bir CourseDtoForUpdate hem de Course return etmemizi istiyor
+            Bu sebeple Map islemi yaparak ona hem bir Course hem de CourseDtoForUpdate vermis oluyoruz*/
         }
 
         public void UpdateOneCourse(int id, CourseDtoForUpdate courseDto, bool trackChanges)
@@ -70,7 +87,12 @@ namespace Services
 
             _manager.Course.Update(entity);
             _manager.Save();
+        }
 
+        public void SaveChangesForUpdate(CourseDtoForUpdate courseDtoForUpdate, Course course)
+        {
+            _mapper.Map(courseDtoForUpdate, course);
+            _manager.Save();
         }
     }
 }

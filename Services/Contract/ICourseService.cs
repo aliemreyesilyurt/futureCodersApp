@@ -6,9 +6,11 @@ namespace Services.Contract
     public interface ICourseService
     {
         IEnumerable<CourseDto> GetAllCourses(bool trackChanges);
-        Course GetOneCourseById(int id, bool trackChanges);
-        Course CreateOneCourse(Course course);
+        CourseDto GetOneCourseById(int id, bool trackChanges);
+        CourseDto CreateOneCourse(CourseDtoForInsertion course);
         void UpdateOneCourse(int id, CourseDtoForUpdate courseDto, bool trackChanges);
         void DeleteOneCourse(int id, bool trackChanges);
+        (CourseDtoForUpdate courseDtoForUpdate, Course course) GetOneCourseForPatch(int id, bool trackChanges);
+        void SaveChangesForUpdate(CourseDtoForUpdate courseDto, Course course);
     }
 }
