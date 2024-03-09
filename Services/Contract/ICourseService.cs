@@ -5,12 +5,12 @@ namespace Services.Contract
 {
     public interface ICourseService
     {
-        IEnumerable<CourseDto> GetAllCourses(bool trackChanges);
-        CourseDto GetOneCourseById(int id, bool trackChanges);
-        CourseDto CreateOneCourse(CourseDtoForInsertion course);
-        void UpdateOneCourse(int id, CourseDtoForUpdate courseDto, bool trackChanges);
-        void DeleteOneCourse(int id, bool trackChanges);
-        (CourseDtoForUpdate courseDtoForUpdate, Course course) GetOneCourseForPatch(int id, bool trackChanges);
-        void SaveChangesForUpdate(CourseDtoForUpdate courseDto, Course course);
+        Task<IEnumerable<CourseDto>> GetAllCoursesAsync(bool trackChanges);
+        Task<CourseDto> GetOneCourseByIdAsync(int id, bool trackChanges);
+        Task<CourseDto> CreateOneCourseAsync(CourseDtoForInsertion course);
+        Task UpdateOneCourseAsync(int id, CourseDtoForUpdate courseDto, bool trackChanges);
+        Task DeleteOneCourseAsync(int id, bool trackChanges);
+        Task<(CourseDtoForUpdate courseDtoForUpdate, Course course)> GetOneCourseForPatchAsync(int id, bool trackChanges);
+        Task SaveChangesForUpdateAsync(CourseDtoForUpdate courseDto, Course course);
     }
 }

@@ -15,9 +15,9 @@ namespace Repositories.EFCore
 
         public ICourseRepository Course => _courseRepository.Value;
 
-        public void Save()
+        public async Task SaveAsync()
         {
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -19,19 +19,19 @@ namespace Presentation.Controllers
 
         // Get
         [HttpGet]
-        public IActionResult GetAllCourses()
+        public async Task<IActionResult> GetAllCoursesAsync()
         {
-            var courses = _manager.CourseService.GetAllCourses(false);
+            var courses = await _manager.CourseService.GetAllCoursesAsync(false);
             return Ok(courses);
         }
 
 
         [HttpGet("{id:int}")]
-        public IActionResult GetOneCourseById([FromRoute(Name = "id")] int id)
+        public async Task<IActionResult> GetOneCourseByIdAsync([FromRoute(Name = "id")] int id)
         {
-            var course = _manager
+            var course = await _manager
             .CourseService
-            .GetOneCourseById(id, false);
+            .GetOneCourseByIdAsync(id, false);
 
 
             if (course == null)
@@ -42,7 +42,7 @@ namespace Presentation.Controllers
 
         // Post
         [HttpPost]
-        public IActionResult CreateOneCourse([FromBody] CourseDtoForInsertion courseDto)
+        public async Task<IActionResult> CreateOneCourseAsync([FromBody] CourseDtoForInsertion courseDto)
         {
             if (courseDto is null)
                 return BadRequest(); //400
@@ -50,14 +50,14 @@ namespace Presentation.Controllers
             if (!ModelState.IsValid)
                 return UnprocessableEntity(ModelState); //422
 
-            var course = _manager.CourseService.CreateOneCourse(courseDto);
+            var course = await _manager.CourseService.CreateOneCourseAsync(courseDto);
 
             return StatusCode(201, course);
         }
 
         //Put
         [HttpPut("{id:int}")]
-        public IActionResult UpdateOneCourse([FromRoute(Name = "id")] int id, [FromBody] CourseDtoForUpdate courseDto)
+        public async Task<IActionResult> UpdateOneCourseAsync([FromRoute(Name = "id")] int id, [FromBody] CourseDtoForUpdate courseDto)
         {
             if (courseDto == null)
                 return BadRequest(); //400
@@ -65,37 +65,40 @@ namespace Presentation.Controllers
             if (!ModelState.IsValid)
                 return UnprocessableEntity(ModelState); //422
 
-            _manager.CourseService.UpdateOneCourse(id, courseDto, false);
+            await _manager.CourseService.UpdateOneCourseAsync(id, courseDto, false);
 
             return NoContent(); //204
         }
 
         //Delete
         [HttpDelete("{id:int}")]
-        public IActionResult DeleteOneCourseById([FromRoute(Name = "id")] int id)
+        public async Task<IActionResult> DeleteOneCourseByIdAsync([FromRoute(Name = "id")] int id)
         {
-            _manager.CourseService.DeleteOneCourse(id, false);
-            //CourseManager uzerinde DeleteOneCourse metodunda entity kontrolu yapidligi icin burada tekrar yapmaya gerek yok!
+            await _manager.CourseService.DeleteOneCourseAsync(id, false);
+            //CourseManager uzerinde DeleteOneCourse metodunda entity kontrolu yapildigi icin burada tekrar yapmaya gerek yok!
 
             return NoContent();
         }
 
         //Patch
         [HttpPatch("{id:int}")]
-        public IActionResult PartiallyUpdateOneCourse([FromRoute(Name = "id")] int id, [FromBody] JsonPatchDocument<CourseDtoForUpdate> coursePatch)
+        public async Task<IActionResult> PartiallyUpdateOneCourseAsync([FromRoute(Name = "id")] int id, [FromBody] JsonPatchDocument<CourseDtoForUpdate> coursePatch)
         {
             //JsonPatchDocument<Course> : JSON verilerini bir varlık sinifi(orn. Course) uzerinde uygulamak icin kullanilir
 
             if (coursePatch is null)
                 return BadRequest(); //400
 
-            var result = _manager.CourseService.GetOneCourseForPatch(id, false); //(CourseDtoForUpdate, Course)
+            var result = await _manager.CourseService.GetOneCourseForPatchAsync(id, false); //(CourseDtoForUpdate, Course)
 
             coursePatch.ApplyTo(result.courseDtoForUpdate, ModelState); //gelen JSON yamalarini "entity" nesnesine uygular
 
             TryValidateModel(result.courseDtoForUpdate);
 
-            _manager.CourseService.SaveChangesForUpdate(result.courseDtoForUpdate, result.course);
+            if (!ModelState.IsValid)
+                return UnprocessableEntity(ModelState);
+
+            await _manager.CourseService.SaveChangesForUpdateAsync(result.courseDtoForUpdate, result.course);
 
             return NoContent();
         }

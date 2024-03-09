@@ -18,49 +18,49 @@ namespace Services
             _logger = logger;
             _mapper = mapper;
         }
-        public CourseDto CreateOneCourse(CourseDtoForInsertion courseDto)
+        public async Task<CourseDto> CreateOneCourseAsync(CourseDtoForInsertion courseDto)
         {
             var entity = _mapper.Map<Course>(courseDto);
             _manager.Course.CreateOneCourse(entity);
-            _manager.Save();
+            await _manager.SaveAsync();
 
 
             return _mapper.Map<CourseDto>(entity);
             //ustteki kullanimda entity(Course) CourseDto'ya donusturulur
         }
 
-        public void DeleteOneCourse(int id, bool trackChanges)
+        public async Task DeleteOneCourseAsync(int id, bool trackChanges)
         {
             //check entity
-            var entity = _manager
+            var entity = await _manager
                 .Course
-                .GetOneCourseById(id, trackChanges);
+                .GetOneCourseByIdAsync(id, trackChanges);
 
             if (entity is null)
                 throw new CourseNotFoundException(id);
 
             _manager.Course.DeleteOneCourse(entity);
-            _manager.Save();
+            await _manager.SaveAsync();
 
         }
 
-        public IEnumerable<CourseDto> GetAllCourses(bool trackChanges)
+        public async Task<IEnumerable<CourseDto>> GetAllCoursesAsync(bool trackChanges)
         {
-            var courses = _manager.Course.GetAllCourses(trackChanges);
+            var courses = await _manager.Course.GetAllCoursesAsync(trackChanges);
             return _mapper.Map<IEnumerable<CourseDto>>(courses);
         }
 
-        public CourseDto GetOneCourseById(int id, bool trackChanges)
+        public async Task<CourseDto> GetOneCourseByIdAsync(int id, bool trackChanges)
         {
-            var course = _manager.Course.GetOneCourseById(id, trackChanges);
+            var course = await _manager.Course.GetOneCourseByIdAsync(id, trackChanges);
             if (course is null)
                 throw new CourseNotFoundException(id);
             return _mapper.Map<CourseDto>(course);
         }
 
-        public (CourseDtoForUpdate courseDtoForUpdate, Course course) GetOneCourseForPatch(int id, bool trackChanges)
+        public async Task<(CourseDtoForUpdate courseDtoForUpdate, Course course)> GetOneCourseForPatchAsync(int id, bool trackChanges)
         {
-            var course = _manager.Course.GetOneCourseById(id, trackChanges);
+            var course = await _manager.Course.GetOneCourseByIdAsync(id, trackChanges);
 
             if (course is null)
                 throw new CourseNotFoundException(id);
@@ -72,12 +72,12 @@ namespace Services
             Bu sebeple Map islemi yaparak ona hem bir Course hem de CourseDtoForUpdate vermis oluyoruz*/
         }
 
-        public void UpdateOneCourse(int id, CourseDtoForUpdate courseDto, bool trackChanges)
+        public async Task UpdateOneCourseAsync(int id, CourseDtoForUpdate courseDto, bool trackChanges)
         {
             //check entity
-            var entity = _manager
+            var entity = await _manager
                 .Course
-                .GetOneCourseById(id, trackChanges);
+                .GetOneCourseByIdAsync(id, trackChanges);
 
             if (entity is null)
                 throw new CourseNotFoundException(id);
@@ -86,13 +86,13 @@ namespace Services
             entity = _mapper.Map<Course>(courseDto);
 
             _manager.Course.Update(entity);
-            _manager.Save();
+            await _manager.SaveAsync();
         }
 
-        public void SaveChangesForUpdate(CourseDtoForUpdate courseDtoForUpdate, Course course)
+        public async Task SaveChangesForUpdateAsync(CourseDtoForUpdate courseDtoForUpdate, Course course)
         {
             _mapper.Map(courseDtoForUpdate, course);
-            _manager.Save();
+            await _manager.SaveAsync();
         }
     }
 }
