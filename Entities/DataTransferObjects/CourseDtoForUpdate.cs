@@ -1,4 +1,10 @@
-﻿namespace Entities.DataTransferObjects
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Entities.DataTransferObjects
 {
-    public record CourseDtoForUpdate(int Id, String? CourseName, String? CourseDescription, String? CourseThumbnail, bool IsRequire, int Rank);
+    public record CourseDtoForUpdate : CourseDtoForManipulation
+    {
+        [Required]
+        public int Id { get; init; }
+    }
 }
