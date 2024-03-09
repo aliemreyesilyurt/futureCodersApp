@@ -32,12 +32,7 @@ namespace Services
         public async Task DeleteOneCourseAsync(int id, bool trackChanges)
         {
             //check entity
-            var entity = await _manager
-                .Course
-                .GetOneCourseByIdAsync(id, trackChanges);
-
-            if (entity is null)
-                throw new CourseNotFoundException(id);
+            var entity = await GetOneCourseByIdAndCheckExists(id, trackChanges);
 
             _manager.Course.DeleteOneCourse(entity);
             await _manager.SaveAsync();
@@ -52,7 +47,9 @@ namespace Services
 
         public async Task<CourseDto> GetOneCourseByIdAsync(int id, bool trackChanges)
         {
-            var course = await _manager.Course.GetOneCourseByIdAsync(id, trackChanges);
+            //check entity
+            var course = await GetOneCourseByIdAndCheckExists(id, trackChanges);
+
             if (course is null)
                 throw new CourseNotFoundException(id);
             return _mapper.Map<CourseDto>(course);
@@ -60,10 +57,8 @@ namespace Services
 
         public async Task<(CourseDtoForUpdate courseDtoForUpdate, Course course)> GetOneCourseForPatchAsync(int id, bool trackChanges)
         {
-            var course = await _manager.Course.GetOneCourseByIdAsync(id, trackChanges);
-
-            if (course is null)
-                throw new CourseNotFoundException(id);
+            //check entity
+            var course = await GetOneCourseByIdAndCheckExists(id, trackChanges);
 
             var courseDtoForUpdate = _mapper.Map<CourseDtoForUpdate>(course);
 
@@ -75,12 +70,7 @@ namespace Services
         public async Task UpdateOneCourseAsync(int id, CourseDtoForUpdate courseDto, bool trackChanges)
         {
             //check entity
-            var entity = await _manager
-                .Course
-                .GetOneCourseByIdAsync(id, trackChanges);
-
-            if (entity is null)
-                throw new CourseNotFoundException(id);
+            var entity = await GetOneCourseByIdAndCheckExists(id, trackChanges);
 
             //mapping
             entity = _mapper.Map<Course>(courseDto);
@@ -93,6 +83,19 @@ namespace Services
         {
             _mapper.Map(courseDtoForUpdate, course);
             await _manager.SaveAsync();
+        }
+
+        private async Task<Course> GetOneCourseByIdAndCheckExists(int id, bool trackChanges)
+        {
+            //check entity
+            var entity = await _manager
+                .Course
+                .GetOneCourseByIdAsync(id, trackChanges);
+
+            if (entity is null)
+                throw new CourseNotFoundException(id);
+
+            return entity;
         }
     }
 }

@@ -1,15 +1,12 @@
 using FutureCodersWebApi.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using NLog;
+using Presentation.ActionFilters;
 using Services.Contract;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.Configure<ApiBehaviorOptions>(options =>
-{
-    options.SuppressModelStateInvalidFilter = true;
-});
-
+LogManager.LoadConfiguration(String.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
 
 builder.Services.AddControllers(config =>
 {
@@ -21,7 +18,12 @@ builder.Services.AddControllers(config =>
     .AddNewtonsoftJson();
 //AddApplicationPart(), ozelligi ile birlikte controller yapisinin diger projeler dahilinde kullanilabilmesine olanak saglanir.)
 
-LogManager.LoadConfiguration(String.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
+builder.Services.AddScoped<ValidationFilterAttribute>();
+
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.SuppressModelStateInvalidFilter = true;
+});
 
 // IoC Semasindaki Register blogu
 builder.Services.AddEndpointsApiExplorer();
@@ -32,6 +34,7 @@ builder.Services.ConfigureServiceManager();
 builder.Services.ConfigureLoggerService();
 builder.Services.AddAutoMapper(typeof(Program));
 
+builder.Services.ConfigureActionFilters();
 
 var app = builder.Build();
 

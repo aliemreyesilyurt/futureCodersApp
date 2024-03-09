@@ -1,10 +1,12 @@
 ﻿using Entities.DataTransferObjects;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Presentation.ActionFilters;
 using Services.Contract;
 
 namespace Presentation.Controllers
 {
+    [ServiceFilter(typeof(LogFilterAttribute))]
     [ApiController]
     [Route("api/courses")]
     public class CoursesController : ControllerBase
@@ -41,30 +43,20 @@ namespace Presentation.Controllers
         }
 
         // Post
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         [HttpPost]
         public async Task<IActionResult> CreateOneCourseAsync([FromBody] CourseDtoForInsertion courseDto)
         {
-            if (courseDto is null)
-                return BadRequest(); //400
-
-            if (!ModelState.IsValid)
-                return UnprocessableEntity(ModelState); //422
-
             var course = await _manager.CourseService.CreateOneCourseAsync(courseDto);
 
             return StatusCode(201, course);
         }
 
         //Put
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdateOneCourseAsync([FromRoute(Name = "id")] int id, [FromBody] CourseDtoForUpdate courseDto)
         {
-            if (courseDto == null)
-                return BadRequest(); //400
-
-            if (!ModelState.IsValid)
-                return UnprocessableEntity(ModelState); //422
-
             await _manager.CourseService.UpdateOneCourseAsync(id, courseDto, false);
 
             return NoContent(); //204
