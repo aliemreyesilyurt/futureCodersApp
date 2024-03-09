@@ -41,9 +41,10 @@ namespace Services
 
         }
 
-        public IEnumerable<Course> GetAllCourses(bool trackChanges)
+        public IEnumerable<CourseDto> GetAllCourses(bool trackChanges)
         {
-            return _manager.Course.GetAllCourses(trackChanges);
+            var courses = _manager.Course.GetAllCourses(trackChanges);
+            return _mapper.Map<IEnumerable<CourseDto>>(courses);
         }
 
         public Course GetOneCourseById(int id, bool trackChanges)
