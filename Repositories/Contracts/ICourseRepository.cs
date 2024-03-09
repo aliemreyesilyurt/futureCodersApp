@@ -5,8 +5,8 @@ namespace Repositories.Contracts
 {
     public interface ICourseRepository : IRepositoryBase<Course>
     {
-        IQueryable<Course> GetAllCourses(bool trackChanges);
-        Course GetOneCourseById(int id, bool trackChanges);
+        Task<IEnumerable<Course>> GetAllCoursesAsync(bool trackChanges);
+        Task<Course> GetOneCourseByIdAsync(int id, bool trackChanges);
         void CreateOneCourse(Course course);
         void UpdateOneCourse(Course course);
         void DeleteOneCourse(Course course);

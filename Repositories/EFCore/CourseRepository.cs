@@ -1,4 +1,5 @@
 ﻿using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 using Repositories.Contracts;
 
 namespace Repositories.EFCore
@@ -16,12 +17,14 @@ namespace Repositories.EFCore
 
         public void UpdateOneCourse(Course course) => Update(course);
 
-        public IQueryable<Course> GetAllCourses(bool trackChanges) =>
-            FindAll(trackChanges);
+        public async Task<IEnumerable<Course>> GetAllCoursesAsync(bool trackChanges) =>
+            await FindAll(trackChanges)
+            .OrderBy(c => c.Id)
+            .ToListAsync();
 
-        public Course GetOneCourseById(int id, bool trackChanges) =>
-            FindByCondition(b => b.Id.Equals(id), trackChanges)
-            .SingleOrDefault();
+        public async Task<Course> GetOneCourseByIdAsync(int id, bool trackChanges) =>
+            await FindByCondition(c => c.Id.Equals(id), trackChanges)
+            .SingleOrDefaultAsync();
 
     }
 }
