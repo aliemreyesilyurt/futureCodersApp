@@ -40,11 +40,20 @@ namespace Services
 
         }
 
-        public async Task<(IEnumerable<CourseDto> courses, MetaData metaData)> GetAllCoursesAsync(CourseParameters courseParameters, bool trackChanges)
+        public async Task<(IEnumerable<CourseDto> courses, MetaData metaData)>
+            GetAllCoursesAsync(CourseParameters courseParameters,
+            bool trackChanges)
         {
+            if (!courseParameters.ValidRank)
+                throw new InvalidRankBadRequestException();
+
+            var coursesWithRank = await _manager
+                .CourseRank
+                .GetAllCourseRanksAsync(courseParameters, trackChanges);
+
             var coursesWithMetaData = await _manager
                 .Course
-                .GetAllCoursesAsync(courseParameters, trackChanges);
+                .GetAllCoursesAsync(coursesWithRank, courseParameters, trackChanges);
 
             var coursesDto = _mapper.Map<IEnumerable<CourseDto>>(coursesWithMetaData);
 
@@ -61,7 +70,8 @@ namespace Services
             return _mapper.Map<CourseDto>(course);
         }
 
-        public async Task<(CourseDtoForUpdate courseDtoForUpdate, Course course)> GetOneCourseForPatchAsync(int id, bool trackChanges)
+        public async Task<(CourseDtoForUpdate courseDtoForUpdate, Course course)>
+            GetOneCourseForPatchAsync(int id, bool trackChanges)
         {
             //check entity
             var course = await GetOneCourseByIdAndCheckExists(id, trackChanges);
