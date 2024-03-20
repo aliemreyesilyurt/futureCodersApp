@@ -1,12 +1,14 @@
-﻿namespace Entities.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Entities.Models
 {
+    [Table("Course", Schema = "course")]
     public class Course
     {
         public int Id { get; set; }
-        public String? CourseName { get; set; }
-        public String? CourseDescription { get; set; }
-        public String? CourseThumbnail { get; set; }
+        public string CourseName { get; set; }
+        public string CourseDescription { get; set; }
+        public string CourseThumbnail { get; set; }
         public bool IsRequire { get; set; }
-        public int Rank { get; set; }
     }
 }
