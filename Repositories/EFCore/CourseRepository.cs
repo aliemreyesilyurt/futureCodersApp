@@ -30,12 +30,14 @@ namespace Repositories.EFCore
                 courses = await FindAll(trackChanges)
                 .Where(c => courseIdes.Contains(c.Id))
                 .FilterCoursesWithIsRequire(courseParameters.IsRequire)
+                .Search(courseParameters.SearchTerm)
                 .ToListAsync();
             }
             else
             {
                 courses = await FindAll(trackChanges)
                 .Where(c => courseIdes.Contains(c.Id))
+                .Search(courseParameters.SearchTerm)
                 .ToListAsync();
             }
 
