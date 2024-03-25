@@ -8,12 +8,9 @@ namespace Repositories.EFCore.Config
     {
         public void Configure(EntityTypeBuilder<Rank> builder)
         {
-            builder.Property(r => r.Name).IsRequired().HasMaxLength(50);
-
             builder.HasData(
-                new Rank { Id = 1, Name = "Beginner" },
-                new Rank { Id = 2, Name = "Intermediate" },
-                new Rank { Id = 3, Name = "Advanced" }
+                new Rank { Id = 1, Name = "Beta", Status = true },
+                new Rank { Id = 2, Name = "Alfa", Status = true },
             );
         }
     }
