@@ -1,5 +1,6 @@
 ﻿using Entities.Models;
 using Microsoft.EntityFrameworkCore;
+using Repositories.EFCore.Config;
 
 namespace Repositories.EFCore
 {
@@ -26,10 +27,15 @@ namespace Repositories.EFCore
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.ApplyConfiguration(new CourseConfig());
-            //modelBuilder.ApplyConfiguration(new UserConfig());
-            //modelBuilder.ApplyConfiguration(new RankConfig());
-            //modelBuilder.ApplyConfiguration(new GenderConfig());
+            modelBuilder.ApplyConfiguration(new RankConfig());
+            modelBuilder.ApplyConfiguration(new ReviewConfig());
+            modelBuilder.ApplyConfiguration(new CourseConfig());
+            modelBuilder.ApplyConfiguration(new CourseRankConfig());
+            modelBuilder.ApplyConfiguration(new StepConfig());
+            modelBuilder.ApplyConfiguration(new GenderConfig());
+            modelBuilder.ApplyConfiguration(new UserConfig());
+            modelBuilder.ApplyConfiguration(new UserStepConfig());
+            modelBuilder.ApplyConfiguration(new BlogConfig());
         }
     }
 }

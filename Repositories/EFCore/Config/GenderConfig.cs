@@ -8,7 +8,6 @@ namespace Repositories.EFCore.Config
     {
         public void Configure(EntityTypeBuilder<Gender> builder)
         {
-            builder.Property(g => g.Name).IsRequired().HasMaxLength(50);
 
             builder.HasData(
                 new Gender { Id = 1, Name = "Male" },

@@ -4,10 +4,13 @@
 
 namespace FutureCodersWebApi.Migrations
 {
-    public partial class deneme61 : Migration
+    public partial class startPoint : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "blog");
+
             migrationBuilder.EnsureSchema(
                 name: "course");
 
@@ -19,6 +22,7 @@ namespace FutureCodersWebApi.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Blog",
+                schema: "blog",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -312,6 +316,63 @@ namespace FutureCodersWebApi.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                schema: "course",
+                table: "Course",
+                columns: new[] { "Id", "CourseDescription", "CourseName", "CourseThumbnail", "IsRequire" },
+                values: new object[,]
+                {
+                    { 1, "This course is a react course", "React", "React.path", true },
+                    { 2, "This course is a flutter course", "Flutter", "Flutter.path", false },
+                    { 3, "This course is a bootstrap 5 course", "Bootstrap", "Bootstrap.path", false }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "user",
+                table: "Gender",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Male" },
+                    { 2, "Female" },
+                    { 3, "Other" }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "user",
+                table: "Rank",
+                columns: new[] { "Id", "Name", "Status" },
+                values: new object[,]
+                {
+                    { 1, "Beginner", true },
+                    { 2, "Intermediate", true },
+                    { 3, "Advanced", true }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "course",
+                table: "CourseRank",
+                columns: new[] { "Id", "CourseId", "RankId" },
+                values: new object[,]
+                {
+                    { 1, 1, 1 },
+                    { 2, 2, 1 },
+                    { 3, 2, 2 },
+                    { 4, 3, 1 }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "course",
+                table: "Step",
+                columns: new[] { "Id", "CourseId", "Title", "VideoPath" },
+                values: new object[,]
+                {
+                    { 1, 1, "React'e giris", "react1.mp4" },
+                    { 2, 1, "React'e JX formati", "react2.mp4" },
+                    { 3, 1, "React'e component", "react3.mp4" },
+                    { 4, 2, "Flutter'a giris", "flutter.mp4" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_CourseRank_CourseId",
                 schema: "course",
@@ -394,7 +455,8 @@ namespace FutureCodersWebApi.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Blog");
+                name: "Blog",
+                schema: "blog");
 
             migrationBuilder.DropTable(
                 name: "CourseRank",

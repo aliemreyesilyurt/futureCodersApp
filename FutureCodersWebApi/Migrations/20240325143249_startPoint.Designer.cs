@@ -12,8 +12,8 @@ using Repositories.EFCore;
 namespace FutureCodersWebApi.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20240313203422_deneme61")]
-    partial class deneme61
+    [Migration("20240325143249_startPoint")]
+    partial class startPoint
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -38,7 +38,7 @@ namespace FutureCodersWebApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Blog");
+                    b.ToTable("Blog", "blog");
                 });
 
             modelBuilder.Entity("Entities.Models.Course", b =>
@@ -67,6 +67,32 @@ namespace FutureCodersWebApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Course", "course");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CourseDescription = "This course is a react course",
+                            CourseName = "React",
+                            CourseThumbnail = "React.path",
+                            IsRequire = true
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CourseDescription = "This course is a flutter course",
+                            CourseName = "Flutter",
+                            CourseThumbnail = "Flutter.path",
+                            IsRequire = false
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CourseDescription = "This course is a bootstrap 5 course",
+                            CourseName = "Bootstrap",
+                            CourseThumbnail = "Bootstrap.path",
+                            IsRequire = false
+                        });
                 });
 
             modelBuilder.Entity("Entities.Models.CourseRank", b =>
@@ -90,6 +116,32 @@ namespace FutureCodersWebApi.Migrations
                     b.HasIndex("RankId");
 
                     b.ToTable("CourseRank", "course");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CourseId = 1,
+                            RankId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CourseId = 2,
+                            RankId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CourseId = 2,
+                            RankId = 2
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CourseId = 3,
+                            RankId = 1
+                        });
                 });
 
             modelBuilder.Entity("Entities.Models.Gender", b =>
@@ -107,6 +159,23 @@ namespace FutureCodersWebApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Gender", "user");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Male"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Female"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Other"
+                        });
                 });
 
             modelBuilder.Entity("Entities.Models.Question", b =>
@@ -217,6 +286,26 @@ namespace FutureCodersWebApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Rank", "user");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Beginner",
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Intermediate",
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Advanced",
+                            Status = true
+                        });
                 });
 
             modelBuilder.Entity("Entities.Models.Review", b =>
@@ -270,6 +359,36 @@ namespace FutureCodersWebApi.Migrations
                     b.HasIndex("CourseId");
 
                     b.ToTable("Step", "course");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CourseId = 1,
+                            Title = "React'e giris",
+                            VideoPath = "react1.mp4"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CourseId = 1,
+                            Title = "React'e JX formati",
+                            VideoPath = "react2.mp4"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CourseId = 1,
+                            Title = "React'e component",
+                            VideoPath = "react3.mp4"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CourseId = 2,
+                            Title = "Flutter'a giris",
+                            VideoPath = "flutter.mp4"
+                        });
                 });
 
             modelBuilder.Entity("Entities.Models.User", b =>
