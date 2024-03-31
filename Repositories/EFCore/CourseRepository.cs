@@ -31,6 +31,7 @@ namespace Repositories.EFCore
                 .Where(c => courseIdes.Contains(c.Id))
                 .FilterCoursesWithIsRequire(courseParameters.IsRequire)
                 .Search(courseParameters.SearchTerm)
+                .Sort(courseParameters.OrderBy)
                 .ToListAsync();
             }
             else
@@ -38,6 +39,7 @@ namespace Repositories.EFCore
                 courses = await FindAll(trackChanges)
                 .Where(c => courseIdes.Contains(c.Id))
                 .Search(courseParameters.SearchTerm)
+                .Sort(courseParameters.OrderBy)
                 .ToListAsync();
             }
 

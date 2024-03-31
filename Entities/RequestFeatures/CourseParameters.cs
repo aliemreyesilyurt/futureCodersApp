@@ -7,5 +7,10 @@
         public int? RankId { get; set; }
         public bool ValidRank => RankId.Equals(1) || RankId.Equals(2) || RankId.Equals(null);
         public string? SearchTerm { get; set; }
+
+        public CourseParameters()
+        {
+            OrderBy = "id";
+        }
     }
 }
