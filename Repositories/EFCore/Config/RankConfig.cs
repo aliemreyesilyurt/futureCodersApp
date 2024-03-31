@@ -10,7 +10,7 @@ namespace Repositories.EFCore.Config
         {
             builder.HasData(
                 new Rank { Id = 1, Name = "Beta", Status = true },
-                new Rank { Id = 2, Name = "Alfa", Status = true },
+                new Rank { Id = 2, Name = "Alfa", Status = true }
             );
         }
     }

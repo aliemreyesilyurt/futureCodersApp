@@ -1,4 +1,5 @@
 ﻿using Entities.Models;
+using System.Linq.Dynamic.Core;
 
 namespace Repositories.EFCore.Extensions
 {
@@ -23,6 +24,23 @@ namespace Repositories.EFCore.Extensions
                 .Where(c => c.CourseName
                 .ToLower()
                 .Contains(searchTerm));
+        }
+
+        public static IQueryable<Course> Sort(this IQueryable<Course> courses,
+            string orderByQueryString)
+        {
+            if (string.IsNullOrWhiteSpace(orderByQueryString))
+                return courses.OrderBy(c => c.Id);
+
+            // Global metod Type verilerek cagrilir
+            var orderQuery = OrderQueryBuilder
+                .CreateOrderQuery<Course>(orderByQueryString);
+
+            if (orderQuery is null)
+                return courses.OrderBy(c => c.Id);
+
+            return courses.OrderBy(orderQuery);
+
         }
     }
 }
