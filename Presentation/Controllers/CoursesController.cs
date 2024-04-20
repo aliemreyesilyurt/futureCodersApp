@@ -22,6 +22,7 @@ namespace Presentation.Controllers
 
 
         // Get
+        [HttpHead]
         [HttpGet]
         public async Task<IActionResult> GetAllCoursesAsync([FromQuery] CourseParameters courseParameters)
         {
@@ -101,6 +102,14 @@ namespace Presentation.Controllers
             await _manager.CourseService.SaveChangesForUpdateAsync(result.courseDtoForUpdate, result.course);
 
             return NoContent();
+        }
+
+        //Options
+        [HttpOptions]
+        public IActionResult GetBookOptions()
+        {
+            Response.Headers.Add("Allow", "GET, PUT, POST, PATCH, DELETE, HEAD, OPTIONS");
+            return Ok();
         }
     }
 }
