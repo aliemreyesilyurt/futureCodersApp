@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Marvin.Cache.Headers;
+using Microsoft.EntityFrameworkCore;
 using Presentation.ActionFilters;
 using Repositories.Contracts;
 using Repositories.EFCore;
 using Services;
 using Services.Contract;
+
 
 namespace FutureCodersWebApi.Extensions
 {
@@ -44,5 +46,19 @@ namespace FutureCodersWebApi.Extensions
                 );
             });
         }
+
+        public static void ConfigureResponseCaching(this IServiceCollection services) =>
+            services.AddResponseCaching();
+
+        public static void ConfigureHttpCacheHeaders(this IServiceCollection services) =>
+            services.AddHttpCacheHeaders(expirationOpt =>
+            {
+                expirationOpt.MaxAge = 90;
+                expirationOpt.CacheLocation = CacheLocation.Public;
+            },
+            validateOpt =>
+            {
+                validateOpt.MustRevalidate = false;
+            });
     }
 }
