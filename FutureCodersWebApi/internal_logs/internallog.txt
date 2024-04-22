@@ -480,3 +480,29 @@
 2024-04-20 14:13:05.4774 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.8.2366. Product version: 5.2.8+f586f1341c46fa38aaaff4c641e7f0fa7e813943. GlobalAssemblyCache: False
 2024-04-20 14:13:05.4967 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Courses\AspNetCoreWebApi\Applications\futureCodersApp\FutureCodersWebApi\nlog.config
 2024-04-20 14:13:05.5095 Info Configuration initialized.
+2024-04-21 13:54:57.1306 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2024-04-21 13:54:57.1991 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.8.2366. Product version: 5.2.8+f586f1341c46fa38aaaff4c641e7f0fa7e813943. GlobalAssemblyCache: False
+2024-04-21 13:54:57.2140 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Courses\AspNetCoreWebApi\Applications\futureCodersApp\FutureCodersWebApi\nlog.config
+2024-04-21 13:54:57.2140 Info Configuration initialized.
+2024-04-21 13:56:22.7293 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2024-04-21 13:56:22.7557 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.8.2366. Product version: 5.2.8+f586f1341c46fa38aaaff4c641e7f0fa7e813943. GlobalAssemblyCache: False
+2024-04-21 13:56:22.7695 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Courses\AspNetCoreWebApi\Applications\futureCodersApp\FutureCodersWebApi\nlog.config
+2024-04-21 13:56:22.7815 Info Configuration initialized.
+2024-04-21 14:02:29.9265 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2024-04-21 14:02:29.9558 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.8.2366. Product version: 5.2.8+f586f1341c46fa38aaaff4c641e7f0fa7e813943. GlobalAssemblyCache: False
+2024-04-21 14:02:29.9732 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Courses\AspNetCoreWebApi\Applications\futureCodersApp\FutureCodersWebApi\nlog.config
+2024-04-21 14:02:29.9862 Info Configuration initialized.
+2024-04-22 14:54:54.7186 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2024-04-22 14:54:54.8143 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.8.2366. Product version: 5.2.8+f586f1341c46fa38aaaff4c641e7f0fa7e813943. GlobalAssemblyCache: False
+2024-04-22 14:54:54.8373 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Courses\AspNetCoreWebApi\Applications\futureCodersApp\FutureCodersWebApi\nlog.config
+2024-04-22 14:54:54.8513 Info Configuration initialized.
+2024-04-22 14:56:45.4969 Info AppDomain Shutting down. LogFactory closing...
+2024-04-22 14:56:45.5157 Info LogFactory has been closed.
+2024-04-22 14:58:09.4374 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2024-04-22 14:58:09.4765 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.8.2366. Product version: 5.2.8+f586f1341c46fa38aaaff4c641e7f0fa7e813943. GlobalAssemblyCache: False
+2024-04-22 14:58:09.5309 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Courses\AspNetCoreWebApi\Applications\futureCodersApp\FutureCodersWebApi\nlog.config
+2024-04-22 14:58:09.5484 Info Configuration initialized.
+2024-04-22 15:02:44.9023 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2024-04-22 15:02:44.9567 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.2.8.2366. Product version: 5.2.8+f586f1341c46fa38aaaff4c641e7f0fa7e813943. GlobalAssemblyCache: False
+2024-04-22 15:02:44.9813 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Courses\AspNetCoreWebApi\Applications\futureCodersApp\FutureCodersWebApi\nlog.config
+2024-04-22 15:02:45.0024 Info Configuration initialized.
