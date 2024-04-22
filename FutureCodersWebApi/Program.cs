@@ -1,3 +1,4 @@
+using AspNetCoreRateLimit;
 using FutureCodersWebApi.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using NLog;
@@ -38,6 +39,9 @@ builder.Services.ConfigureCors();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.ConfigureResponseCaching();
 builder.Services.ConfigureHttpCacheHeaders();
+builder.Services.AddMemoryCache();
+builder.Services.ConfigureRateLimitingOptions();
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
@@ -57,6 +61,7 @@ if (app.Environment.IsProduction())
 
 app.UseHttpsRedirection();
 
+app.UseIpRateLimiting();
 // Microsoft Cors yapisindan sonra caching ifadesinin cagirilmasini oneriyor
 app.UseCors("CorsPolicy");
 app.UseResponseCaching();

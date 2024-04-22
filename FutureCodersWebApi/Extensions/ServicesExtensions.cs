@@ -1,4 +1,5 @@
-﻿using Marvin.Cache.Headers;
+﻿using AspNetCoreRateLimit;
+using Marvin.Cache.Headers;
 using Microsoft.EntityFrameworkCore;
 using Presentation.ActionFilters;
 using Repositories.Contracts;
@@ -60,5 +61,30 @@ namespace FutureCodersWebApi.Extensions
             {
                 validateOpt.MustRevalidate = false;
             });
+
+        public static void ConfigureRateLimitingOptions(this IServiceCollection services)
+        {
+            // Kurallari tutan liste
+            var rateLimitRuels = new List<RateLimitRule>()
+            {
+                // 1 dakikada yalnizca 3 istek alma kurali
+                new RateLimitRule()
+                {
+                    Endpoint = "*",
+                    Limit = 3,
+                    Period = "1m"
+                }
+            };
+
+            services.Configure<IpRateLimitOptions>(opt =>
+            {
+                opt.GeneralRules = rateLimitRuels;
+            });
+
+            services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
+            services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
+            services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+            services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
+        }
     }
 }
