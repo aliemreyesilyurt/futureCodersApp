@@ -14,7 +14,6 @@ namespace Entities.DataTransferObjects
         public string CourseDescription { get; init; }
 
         [Required(ErrorMessage = "Course thumbnail is a required field.")]
-        [MinLength(3, ErrorMessage = "Course description consist of at least 3 characters.")]
         public string CourseThumbnail { get; init; }
 
         [Required(ErrorMessage = "IsRequire is a required field.")]

@@ -11,6 +11,11 @@ namespace WebApi.Utilities.AutoMapper
             CreateMap<CourseDtoForUpdate, Course>().ReverseMap();
             CreateMap<Course, CourseDto>();
             CreateMap<CourseDtoForInsertion, Course>();
+
+            CreateMap<BlogDtoForUpdate, Blog>().ReverseMap();
+            CreateMap<Blog, BlogDto>();
+            CreateMap<BlogDtoForInsertion, Blog>();
+
             CreateMap<UserForRegistirationDto, User>();
         }
     }

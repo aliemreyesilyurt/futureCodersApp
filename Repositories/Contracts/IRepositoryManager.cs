@@ -4,6 +4,7 @@
     {
         ICourseRepository Course { get; }
         ICourseRankRepository CourseRank { get; }
+        IBlogRepository Blog { get; }
         Task SaveAsync();
     }
 }

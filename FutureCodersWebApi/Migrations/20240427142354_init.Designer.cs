@@ -12,7 +12,7 @@ using Repositories.EFCore;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20240427090251_init")]
+    [Migration("20240427142354_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,7 +32,15 @@ namespace WebApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("BlogImage")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -44,17 +52,23 @@ namespace WebApi.Migrations
                         new
                         {
                             Id = 1,
-                            Content = "Backend ile ilgili yol haritası!"
+                            BlogImage = "",
+                            Content = "Backend ile ilgili yol haritası!",
+                            Title = "Backend Blog"
                         },
                         new
                         {
                             Id = 2,
-                            Content = "Frontend ile ilgili yol haritası!"
+                            BlogImage = "",
+                            Content = "Frontend ile ilgili yol haritası",
+                            Title = "Frontend Blog"
                         },
                         new
                         {
                             Id = 3,
-                            Content = "Mobil uygulama ile ilgili yol haritası!"
+                            BlogImage = "",
+                            Content = "Mobil uygulama ile ilgili yol haritası!",
+                            Title = "Mobile Blog"
                         });
                 });
 
@@ -577,15 +591,15 @@ namespace WebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "42dc8deb-a84c-422e-adf3-9150e709f60a",
-                            ConcurrencyStamp = "5d55fcfd-ae1f-4cb6-9915-2a563a8d7726",
+                            Id = "e70e1dbc-7aa2-4ef5-8db2-6cd6faf0d874",
+                            ConcurrencyStamp = "435e12d3-a5af-4300-b44e-b3bceddbdc7e",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "230e1bf8-914e-4d59-ad25-4836741362ef",
-                            ConcurrencyStamp = "02ae42a0-b5f6-404b-978d-0e52461edc52",
+                            Id = "1bfb7b91-5a05-4230-b953-28ae9f0972f3",
+                            ConcurrencyStamp = "736f7356-1ce1-4a0b-a3a8-13dae18a8874",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });

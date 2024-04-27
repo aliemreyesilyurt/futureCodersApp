@@ -42,7 +42,9 @@ namespace WebApi.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BlogImage = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -448,19 +450,19 @@ namespace WebApi.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "230e1bf8-914e-4d59-ad25-4836741362ef", "02ae42a0-b5f6-404b-978d-0e52461edc52", "Admin", "ADMIN" },
-                    { "42dc8deb-a84c-422e-adf3-9150e709f60a", "5d55fcfd-ae1f-4cb6-9915-2a563a8d7726", "User", "USER" }
+                    { "1bfb7b91-5a05-4230-b953-28ae9f0972f3", "736f7356-1ce1-4a0b-a3a8-13dae18a8874", "Admin", "ADMIN" },
+                    { "e70e1dbc-7aa2-4ef5-8db2-6cd6faf0d874", "435e12d3-a5af-4300-b44e-b3bceddbdc7e", "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
                 schema: "blog",
                 table: "Blog",
-                columns: new[] { "Id", "Content" },
+                columns: new[] { "Id", "BlogImage", "Content", "Title" },
                 values: new object[,]
                 {
-                    { 1, "Backend ile ilgili yol haritası!" },
-                    { 2, "Frontend ile ilgili yol haritası!" },
-                    { 3, "Mobil uygulama ile ilgili yol haritası!" }
+                    { 1, "", "Backend ile ilgili yol haritası!", "Backend Blog" },
+                    { 2, "", "Frontend ile ilgili yol haritası", "Frontend Blog" },
+                    { 3, "", "Mobil uygulama ile ilgili yol haritası!", "Mobile Blog" }
                 });
 
             migrationBuilder.InsertData(
