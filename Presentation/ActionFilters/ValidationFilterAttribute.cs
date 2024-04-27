@@ -10,7 +10,7 @@ namespace Presentation.ActionFilters
             var controller = context.RouteData.Values["controller"];
             var action = context.RouteData.Values["action"];
 
-            //Dto
+            // Dto
             var param = context.ActionArguments
                 .SingleOrDefault(p => p.Value.ToString().Contains("Dto")).Value;
 
@@ -18,12 +18,12 @@ namespace Presentation.ActionFilters
             {
                 context.Result = new BadRequestObjectResult($"Object is null. " +
                     $"Controller : {controller} " +
-                    $"Action : {action}");
-                return; //400
+                    $"Action :  {action}");
+                return; // 400
             }
 
             if (!context.ModelState.IsValid)
-                context.Result = new UnprocessableEntityObjectResult(context.ModelState);
+                context.Result = new UnprocessableEntityObjectResult(context.ModelState); // 422 
         }
     }
 }

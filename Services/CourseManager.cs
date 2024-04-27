@@ -4,7 +4,7 @@ using Entities.Exceptions;
 using Entities.Models;
 using Entities.RequestFeatures;
 using Repositories.Contracts;
-using Services.Contract;
+using Services.Contracts;
 
 namespace Services
 {

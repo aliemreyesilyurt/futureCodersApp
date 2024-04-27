@@ -1,4 +1,4 @@
-﻿namespace Services.Contract
+﻿namespace Services.Contracts
 {
     public interface ILoggerService
     {

@@ -3,7 +3,7 @@ using FutureCodersWebApi.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using NLog;
 using Presentation.ActionFilters;
-using Services.Contract;
+using Services.Contracts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,6 +43,9 @@ builder.Services.AddMemoryCache();
 builder.Services.ConfigureRateLimitingOptions();
 builder.Services.AddHttpContextAccessor();
 
+builder.Services.ConfigureIdentity();
+builder.Services.ConfigureJWT(builder.Configuration); //authentication aktif eder
+
 var app = builder.Build();
 
 var logger = app.Services.GetRequiredService<ILoggerService>();
@@ -68,6 +71,7 @@ app.UseResponseCaching();
 app.UseHttpCacheHeaders();
 
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

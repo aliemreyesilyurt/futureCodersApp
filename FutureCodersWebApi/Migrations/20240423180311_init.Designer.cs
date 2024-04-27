@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repositories.EFCore;
 
@@ -11,9 +12,10 @@ using Repositories.EFCore;
 namespace FutureCodersWebApi.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20240423180311_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -451,7 +453,7 @@ namespace FutureCodersWebApi.Migrations
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("GenderId")
+                    b.Property<int>("GenderId")
                         .HasColumnType("int");
 
                     b.Property<bool?>("IsAvailable")
@@ -483,14 +485,8 @@ namespace FutureCodersWebApi.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("RankId")
+                    b.Property<int>("RankId")
                         .HasColumnType("int");
-
-                    b.Property<string>("RefreshToken")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("RefreshTokenExpiryTime")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -575,15 +571,15 @@ namespace FutureCodersWebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "4fb07f9e-0ae8-4f43-9649-e639e668df59",
-                            ConcurrencyStamp = "60b07ee8-1784-4794-99ec-592352e98784",
+                            Id = "d5e221a7-83fd-4894-9049-2d85f2fce688",
+                            ConcurrencyStamp = "363ad310-3c8d-4b29-a6cc-4c96fc05f9b3",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "2910c011-5360-43cd-86e1-b3cc34c5fa6b",
-                            ConcurrencyStamp = "4229aa7f-ecc4-4417-937f-9b66094fc940",
+                            Id = "06da5a10-b41c-496b-b4d5-d2749ca1214e",
+                            ConcurrencyStamp = "1af84cae-2931-43fd-a61f-4eda8f909904",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -785,11 +781,15 @@ namespace FutureCodersWebApi.Migrations
                 {
                     b.HasOne("Entities.Models.Gender", "Gender")
                         .WithMany()
-                        .HasForeignKey("GenderId");
+                        .HasForeignKey("GenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Entities.Models.Rank", "Rank")
                         .WithMany()
-                        .HasForeignKey("RankId");
+                        .HasForeignKey("RankId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Gender");
 

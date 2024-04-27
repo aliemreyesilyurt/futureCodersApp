@@ -1,7 +1,7 @@
 ﻿using Entities.ErrorModel;
 using Entities.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
-using Services.Contract;
+using Services.Contracts;
 
 namespace FutureCodersWebApi.Extensions
 {
