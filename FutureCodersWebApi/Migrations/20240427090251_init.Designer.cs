@@ -9,11 +9,11 @@ using Repositories.EFCore;
 
 #nullable disable
 
-namespace FutureCodersWebApi.Migrations
+namespace WebApi.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20240426182503_AddRefreshTokenFields")]
-    partial class AddRefreshTokenFields
+    [Migration("20240427090251_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -577,15 +577,15 @@ namespace FutureCodersWebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "4fb07f9e-0ae8-4f43-9649-e639e668df59",
-                            ConcurrencyStamp = "60b07ee8-1784-4794-99ec-592352e98784",
+                            Id = "42dc8deb-a84c-422e-adf3-9150e709f60a",
+                            ConcurrencyStamp = "5d55fcfd-ae1f-4cb6-9915-2a563a8d7726",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "2910c011-5360-43cd-86e1-b3cc34c5fa6b",
-                            ConcurrencyStamp = "4229aa7f-ecc4-4417-937f-9b66094fc940",
+                            Id = "230e1bf8-914e-4d59-ad25-4836741362ef",
+                            ConcurrencyStamp = "02ae42a0-b5f6-404b-978d-0e52461edc52",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });

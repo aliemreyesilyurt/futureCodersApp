@@ -5,6 +5,7 @@ using Services.Contracts;
 
 namespace Presentation.Controllers
 {
+    [ApiExplorerSettings(GroupName = "v1")]
     [ApiController]
     [Route("api/authentication")]
     public class AuthenticationController : ControllerBase

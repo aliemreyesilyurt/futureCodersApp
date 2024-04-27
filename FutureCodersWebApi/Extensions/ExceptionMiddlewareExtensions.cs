@@ -3,7 +3,7 @@ using Entities.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
 using Services.Contracts;
 
-namespace FutureCodersWebApi.Extensions
+namespace WebApi.Extensions
 {
     public static class ExceptionMiddlewareExtensions
     {
