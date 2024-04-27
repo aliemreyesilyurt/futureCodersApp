@@ -11,6 +11,7 @@ namespace FutureCodersWebApi.Utilities.AutoMapper
             CreateMap<CourseDtoForUpdate, Course>().ReverseMap();
             CreateMap<Course, CourseDto>();
             CreateMap<CourseDtoForInsertion, Course>();
+            CreateMap<UserForRegistirationDto, User>();
         }
     }
 }

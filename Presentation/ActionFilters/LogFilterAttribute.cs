@@ -1,7 +1,7 @@
 ﻿using Entities.LogModel;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Routing;
-using Services.Contract;
+using Services.Contracts;
 
 namespace Presentation.ActionFilters
 {

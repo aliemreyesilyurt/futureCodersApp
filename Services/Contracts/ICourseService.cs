@@ -2,7 +2,7 @@
 using Entities.Models;
 using Entities.RequestFeatures;
 
-namespace Services.Contract
+namespace Services.Contracts
 {
     public interface ICourseService
     {

@@ -1,13 +1,15 @@
 ﻿using Entities.DataTransferObjects;
 using Entities.RequestFeatures;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.ActionFilters;
-using Services.Contract;
+using Services.Contracts;
 using System.Text.Json;
 
 namespace Presentation.Controllers
 {
+    //[Authorize]
     [ServiceFilter(typeof(LogFilterAttribute))]
     [ApiController]
     [Route("api/courses")]
@@ -24,6 +26,7 @@ namespace Presentation.Controllers
 
 
         // Get
+        [Authorize] // bu kullanim ile tum roller erisebilir
         [HttpHead]
         [HttpGet]
         //[ResponseCache(Duration = 60)] //Bu kullanim metoda daha yakin oldugu icin bu cache yapisi kullanilir
@@ -39,7 +42,7 @@ namespace Presentation.Controllers
             return Ok(pagedResult.courses);
         }
 
-
+        [Authorize]
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetOneCourseByIdAsync([FromRoute(Name = "id")] int id)
         {
@@ -55,8 +58,9 @@ namespace Presentation.Controllers
         }
 
         // Post
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateOneCourseAsync([FromBody] CourseDtoForInsertion courseDto)
         {
             var course = await _manager.CourseService.CreateOneCourseAsync(courseDto);
@@ -65,8 +69,9 @@ namespace Presentation.Controllers
         }
 
         //Put
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id:int}")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateOneCourseAsync([FromRoute(Name = "id")] int id, [FromBody] CourseDtoForUpdate courseDto)
         {
             await _manager.CourseService.UpdateOneCourseAsync(id, courseDto, false);
@@ -75,6 +80,7 @@ namespace Presentation.Controllers
         }
 
         //Delete
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteOneCourseByIdAsync([FromRoute(Name = "id")] int id)
         {
@@ -85,6 +91,7 @@ namespace Presentation.Controllers
         }
 
         //Patch
+        [Authorize(Roles = "Admin")]
         [HttpPatch("{id:int}")]
         public async Task<IActionResult> PartiallyUpdateOneCourseAsync([FromRoute(Name = "id")] int id, [FromBody] JsonPatchDocument<CourseDtoForUpdate> coursePatch)
         {
@@ -108,6 +115,7 @@ namespace Presentation.Controllers
         }
 
         //Options
+        [Authorize]
         [HttpOptions]
         public IActionResult GetBookOptions()
         {
