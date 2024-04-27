@@ -1,9 +1,9 @@
 using AspNetCoreRateLimit;
-using FutureCodersWebApi.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using NLog;
 using Presentation.ActionFilters;
 using Services.Contracts;
+using WebApi.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +15,7 @@ builder.Services.AddControllers(config =>
     config.ReturnHttpNotAcceptable = true;
     config.CacheProfiles.Add("5mins", new CacheProfile() { Duration = 300 });
 })
-    .AddXmlDataContractSerializerFormatters()
+    //.AddXmlDataContractSerializerFormatters()
     .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly)
     .AddNewtonsoftJson();
 //AddApplicationPart(), ozelligi ile birlikte controller yapisinin diger projeler dahilinde kullanilabilmesine olanak saglanir.)
@@ -29,7 +29,7 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 
 // IoC Semasindaki Register blogu
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.ConfigureSwagger();
 builder.Services.ConfigureSqlContext(builder.Configuration);
 builder.Services.ConfigureRepositoryManager();
 builder.Services.ConfigureServiceManager();
@@ -54,7 +54,10 @@ app.ConfigureExceptionHandler(logger);
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(s =>
+    {
+        s.SwaggerEndpoint("/swagger/v1/swagger.json", "Future Coders v1");
+    });
 }
 
 if (app.Environment.IsProduction())

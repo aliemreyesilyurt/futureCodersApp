@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace FutureCodersWebApi.Migrations
+namespace WebApi.Migrations
 {
     public partial class init : Migration
     {
@@ -182,9 +182,11 @@ namespace FutureCodersWebApi.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RefreshTokenExpiryTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsAvailable = table.Column<bool>(type: "bit", nullable: true),
-                    GenderId = table.Column<int>(type: "int", nullable: false),
-                    RankId = table.Column<int>(type: "int", nullable: false),
+                    GenderId = table.Column<int>(type: "int", nullable: true),
+                    RankId = table.Column<int>(type: "int", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -208,15 +210,13 @@ namespace FutureCodersWebApi.Migrations
                         column: x => x.GenderId,
                         principalSchema: "user",
                         principalTable: "Gender",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_AspNetUsers_Rank_RankId",
                         column: x => x.RankId,
                         principalSchema: "user",
                         principalTable: "Rank",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -448,8 +448,8 @@ namespace FutureCodersWebApi.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "06da5a10-b41c-496b-b4d5-d2749ca1214e", "1af84cae-2931-43fd-a61f-4eda8f909904", "Admin", "ADMIN" },
-                    { "d5e221a7-83fd-4894-9049-2d85f2fce688", "363ad310-3c8d-4b29-a6cc-4c96fc05f9b3", "User", "USER" }
+                    { "230e1bf8-914e-4d59-ad25-4836741362ef", "02ae42a0-b5f6-404b-978d-0e52461edc52", "Admin", "ADMIN" },
+                    { "42dc8deb-a84c-422e-adf3-9150e709f60a", "5d55fcfd-ae1f-4cb6-9915-2a563a8d7726", "User", "USER" }
                 });
 
             migrationBuilder.InsertData(

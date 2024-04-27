@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Design;
 using Repositories.EFCore;
 
-namespace FutureCodersWebApi.ContextFactory
+namespace WebApi.ContextFactory
 {
     public class RepositoryContextFactory : IDesignTimeDbContextFactory<RepositoryContext>
     {
@@ -17,7 +17,7 @@ namespace FutureCodersWebApi.ContextFactory
             // DbContextOptionsBuilder
             var builder = new DbContextOptionsBuilder<RepositoryContext>()
                 .UseSqlServer(configuration.GetConnectionString("sqlConnection"),
-                prj => prj.MigrationsAssembly("FutureCodersWebApi"));
+                prj => prj.MigrationsAssembly("WebApi"));
 
             return new RepositoryContext(builder.Options);
         }
