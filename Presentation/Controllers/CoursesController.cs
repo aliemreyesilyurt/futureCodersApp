@@ -118,7 +118,7 @@ namespace Presentation.Controllers
         //Options
         [Authorize]
         [HttpOptions]
-        public IActionResult GetBookOptions()
+        public IActionResult GetCourseOptions()
         {
             Response.Headers.Add("Allow", "GET, PUT, POST, PATCH, DELETE, HEAD, OPTIONS");
             return Ok();
