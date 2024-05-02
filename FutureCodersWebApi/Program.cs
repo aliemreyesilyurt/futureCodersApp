@@ -46,6 +46,9 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.ConfigureIdentity();
 builder.Services.ConfigureJWT(builder.Configuration); //authentication aktif eder
 
+builder.Services.RegisterRepositories();
+builder.Services.RegisterServices();
+
 var app = builder.Build();
 
 var logger = app.Services.GetRequiredService<ILoggerService>();

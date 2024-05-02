@@ -13,7 +13,7 @@ using System.Text;
 
 namespace Services
 {
-    internal class AuthenticationManager : IAuthenticationService
+    public class AuthenticationManager : IAuthenticationService
     {
         private readonly ILoggerService _logger;
         private readonly IMapper _mapper;
