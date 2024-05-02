@@ -64,7 +64,9 @@ namespace Presentation.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateOneCourseAsync([FromBody] CourseDtoForInsertion courseDto)
         {
-            var course = await _manager.CourseService.CreateOneCourseAsync(courseDto);
+            var course = await _manager
+                .CourseService
+                .CreateOneCourseAsync(courseDto);
 
             return StatusCode(201, course);
         }
