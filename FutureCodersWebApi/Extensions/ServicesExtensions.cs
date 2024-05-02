@@ -182,5 +182,19 @@ namespace WebApi.Extensions
                 });
             });
         }
+
+        public static void RegisterRepositories(this IServiceCollection services)
+        {
+            services.AddScoped<ICourseRepository, CourseRepository>();
+            services.AddScoped<ICourseRankRepository, CourseRankRepository>();
+            services.AddScoped<IBlogRepository, BlogRepository>();
+        }
+
+        public static void RegisterServices(this IServiceCollection services)
+        {
+            services.AddScoped<ICourseService, CourseManager>();
+            services.AddScoped<IBlogService, BlogManager>();
+            services.AddScoped<IAuthenticationService, AuthenticationManager>();
+        }
     }
 }
