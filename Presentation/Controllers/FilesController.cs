@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.StaticFiles;
 
 namespace Presentation.Controllers
 {
@@ -35,5 +36,48 @@ namespace Presentation.Controllers
                 size = file.Length,
             });
         }
+
+        [HttpGet("download")]
+        public async Task<IActionResult> Download(string fileName)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            // filePath
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "Media", fileName);
+
+            // ContentType : (MIME)
+            var provider = new FileExtensionContentTypeProvider();
+            if (!provider.TryGetContentType(fileName, out var contentType))
+            {
+                contentType = "application/octet-stream";
+            }
+
+            // Read
+            var bytes = await System.IO.File.ReadAllBytesAsync(filePath);
+            return File(bytes, contentType, Path.GetFileName(filePath));
+        }
+
+        [HttpGet("getAll")]
+        public IActionResult GetAllFiles()
+        {
+            var folder = Path.Combine(Directory.GetCurrentDirectory(), "Media");
+
+            if (!Directory.Exists(folder))
+                return NotFound("Media folder not found.");
+
+            var files = Directory.GetFiles(folder)
+                                 .Select(filePath => new FileInfo(filePath))
+                                 .Select(fileInfo => new
+                                 {
+                                     Name = fileInfo.Name,
+                                     Path = fileInfo.FullName,
+                                     Size = fileInfo.Length
+                                 })
+                                 .ToList();
+
+            return Ok(files);
+        }
     }
 }
+
