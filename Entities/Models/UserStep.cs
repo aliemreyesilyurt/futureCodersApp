@@ -6,7 +6,7 @@ namespace Entities.Models
     public class UserStep
     {
         public int Id { get; set; }
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
         public User User { get; set; }
 
         public int StepId { get; set; }

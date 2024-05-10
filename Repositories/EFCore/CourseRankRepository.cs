@@ -12,13 +12,13 @@ namespace Repositories.EFCore
         {
         }
 
-        public void CreateOneCourseRank(CourseRank course) => Create(course);
+        public void CreateOneCourseRank(CourseRank courseRank) => Create(courseRank);
 
-        public void DeleteOneCourseRank(CourseRank course) => Delete(course);
+        public void DeleteOneCourseRank(CourseRank courseRank) => Delete(courseRank);
 
-        public void UpdateOneCourseRank(CourseRank course) => Update(course);
+        public void UpdateOneCourseRank(CourseRank courseRank) => Update(courseRank);
 
-        public async Task<PagedList<CourseRank>> GetAllCourseRanksAsync(CourseParameters courseParameters, bool trackChanges)
+        public async Task<List<CourseRank>> GetAllCourseRanksWithParamsAsync(CourseParameters courseParameters, bool trackChanges)
         {
             List<CourseRank> courseRank = new List<CourseRank>();
 
@@ -26,24 +26,21 @@ namespace Repositories.EFCore
             {
                 courseRank = await FindAll(trackChanges)
                     .FilterCoursesWithRank(Convert.ToInt32(courseParameters.RankId))
-                    .OrderBy(b => b.Course.Id)
+                    .OrderBy(cr => cr.Course.Id)
                     .ToListAsync();
             }
             else
             {
                 courseRank = await FindAll(trackChanges)
-                .OrderBy(b => b.CourseId)
+                .OrderBy(cr => cr.CourseId)
                 .ToListAsync();
             }
-            return PagedList<CourseRank>
 
-                .ToPagedList(courseRank,
-                courseParameters.PageNumber,
-                courseParameters.PageSize);
+            return courseRank;
         }
 
-        public async Task<CourseRank> GetOneCourseRankByIdAsync(int id, bool trackChanges) =>
-            await FindByCondition(c => c.Id.Equals(id), trackChanges)
-            .SingleOrDefaultAsync();
+        public async Task<List<CourseRank>> GetOneCourseRankByIdAsync(int courseId, bool trackChanges) =>
+            await FindByCondition(cr => cr.CourseId.Equals(courseId), trackChanges)
+            .ToListAsync();
     }
 }

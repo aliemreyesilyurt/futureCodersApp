@@ -65,7 +65,7 @@ namespace WebApi.Extensions
             },
             validateOpt =>
             {
-                validateOpt.MustRevalidate = false;
+                validateOpt.MustRevalidate = true;
             });
 
         public static void ConfigureRateLimitingOptions(this IServiceCollection services)

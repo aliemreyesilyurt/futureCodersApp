@@ -28,7 +28,6 @@ namespace Presentation.Controllers
 
         // Get
         [Authorize] // bu kullanim ile tum roller erisebilir
-        [HttpHead]
         [HttpGet]
         //[ResponseCache(Duration = 60)] //Bu kullanim metoda daha yakin oldugu icin bu cache yapisi kullanilir
         public async Task<IActionResult> GetAllCoursesAsync([FromQuery] CourseParameters courseParameters)
@@ -71,18 +70,25 @@ namespace Presentation.Controllers
             return StatusCode(201, course);
         }
 
-        //Put
+        // Put
         [Authorize(Roles = "Admin")]
         [HttpPut("{id:int}")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateOneCourseAsync([FromRoute(Name = "id")] int id, [FromBody] CourseDtoForUpdate courseDto)
         {
+            foreach (var rankId in courseDto.RankIds)
+            {
+                if (rankId != 1 && rankId != 2)
+                    return BadRequest("Rank Ids should be 1(Alfa) or 2(Beta). " +
+                        "If you want to create a course suitable for both ranks, you have to add them both with a comma(,)");
+            }
+
             await _manager.CourseService.UpdateOneCourseAsync(id, courseDto, false);
 
             return NoContent(); //204
         }
 
-        //Delete
+        // Delete
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteOneCourseByIdAsync([FromRoute(Name = "id")] int id)
@@ -93,7 +99,7 @@ namespace Presentation.Controllers
             return NoContent();
         }
 
-        //Patch
+        // Patch
         [Authorize(Roles = "Admin")]
         [HttpPatch("{id:int}")]
         public async Task<IActionResult> PartiallyUpdateOneCourseAsync([FromRoute(Name = "id")] int id, [FromBody] JsonPatchDocument<CourseDtoForUpdate> coursePatch)
@@ -117,12 +123,12 @@ namespace Presentation.Controllers
             return NoContent();
         }
 
-        //Options
+        // Options
         [Authorize]
         [HttpOptions]
         public IActionResult GetCourseOptions()
         {
-            Response.Headers.Add("Allow", "GET, PUT, POST, PATCH, DELETE, HEAD, OPTIONS");
+            Response.Headers.Add("Allow", "GET, PUT, POST, PATCH, DELETE, OPTIONS");
             return Ok();
         }
     }

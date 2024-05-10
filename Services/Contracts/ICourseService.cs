@@ -8,10 +8,11 @@ namespace Services.Contracts
     {
         Task<(IEnumerable<CourseDto> courses, MetaData metaData)> GetAllCoursesAsync(CourseParameters courseParameters, bool trackChanges);
         Task<CourseDto> GetOneCourseByIdAsync(int id, bool trackChanges);
-        Task<CourseDto> CreateOneCourseAsync(CourseDtoForInsertion course);
+        Task<CourseDtoForInsertion> CreateOneCourseAsync(CourseDtoForInsertion course);
         Task UpdateOneCourseAsync(int id, CourseDtoForUpdate courseDto, bool trackChanges);
         Task DeleteOneCourseAsync(int id, bool trackChanges);
         Task<(CourseDtoForUpdate courseDtoForUpdate, Course course)> GetOneCourseForPatchAsync(int id, bool trackChanges);
         Task SaveChangesForUpdateAsync(CourseDtoForUpdate courseDto, Course course);
+        Task UpdateOneCourseStatusAsync(int courseId, bool trackChanges);
     }
 }

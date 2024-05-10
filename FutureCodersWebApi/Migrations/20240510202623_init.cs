@@ -61,6 +61,7 @@ namespace WebApi.Migrations
                     CourseName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CourseDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CourseThumbnail = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsOver = table.Column<bool>(type: "bit", nullable: false),
                     IsRequire = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -368,17 +369,17 @@ namespace WebApi.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CourseId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    UserId1 = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Review", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Review_AspNetUsers_UserId1",
-                        column: x => x.UserId1,
+                        name: "FK_Review_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Review_Course_CourseId",
                         column: x => x.CourseId,
@@ -395,16 +396,15 @@ namespace WebApi.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId1 = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     StepId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserStep", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserStep_AspNetUsers_UserId1",
-                        column: x => x.UserId1,
+                        name: "FK_UserStep_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -424,7 +424,7 @@ namespace WebApi.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserId1 = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     QuestionOptionId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -450,8 +450,8 @@ namespace WebApi.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "1bfb7b91-5a05-4230-b953-28ae9f0972f3", "736f7356-1ce1-4a0b-a3a8-13dae18a8874", "Admin", "ADMIN" },
-                    { "e70e1dbc-7aa2-4ef5-8db2-6cd6faf0d874", "435e12d3-a5af-4300-b44e-b3bceddbdc7e", "User", "USER" }
+                    { "277b8448-2b29-4466-a051-875d883bc9a6", "6dd29379-a437-4f85-b383-c5a995d93d0c", "User", "USER" },
+                    { "dd3a2120-9071-41ce-b504-eee5353be2f2", "c0441d15-7898-4970-a9ff-6e1e857364b1", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
@@ -468,12 +468,12 @@ namespace WebApi.Migrations
             migrationBuilder.InsertData(
                 schema: "course",
                 table: "Course",
-                columns: new[] { "Id", "CourseDescription", "CourseName", "CourseThumbnail", "IsRequire" },
+                columns: new[] { "Id", "CourseDescription", "CourseName", "CourseThumbnail", "IsOver", "IsRequire" },
                 values: new object[,]
                 {
-                    { 1, "This course is a react course", "React", "React.path", true },
-                    { 2, "This course is a flutter course", "Flutter", "Flutter.path", false },
-                    { 3, "This course is a bootstrap 5 course", "Bootstrap", "Bootstrap.path", false }
+                    { 1, "This course is a react course", "React", "React.path", false, true },
+                    { 2, "This course is a flutter course", "Flutter", "Flutter.path", false, false },
+                    { 3, "This course is a bootstrap 5 course", "Bootstrap", "Bootstrap.path", false, false }
                 });
 
             migrationBuilder.InsertData(
@@ -498,6 +498,11 @@ namespace WebApi.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "GenderId", "IsAvailable", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "RankId", "RefreshToken", "RefreshTokenExpiryTime", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "a1", 0, "573f0c6f-13b8-449f-a3a3-c1a2167f5203", null, false, "Ali Emre", 1, false, "Yeşilyurt", false, null, null, null, null, null, false, 1, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "be8ab799-6401-4509-aaa5-a2865ed3ddbe", false, null });
+
+            migrationBuilder.InsertData(
                 schema: "course",
                 table: "CourseRank",
                 columns: new[] { "Id", "CourseId", "RankId" },
@@ -506,18 +511,8 @@ namespace WebApi.Migrations
                     { 1, 1, 1 },
                     { 2, 2, 1 },
                     { 3, 2, 2 },
-                    { 4, 3, 1 }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "course",
-                table: "Review",
-                columns: new[] { "Id", "Content", "CourseId", "UserId", "UserId1" },
-                values: new object[,]
-                {
-                    { 1, "Çok başarılı bir kurs olmuş!", 1, 2, null },
-                    { 2, "Sade ve güzel bir anlatım olmuş, harika :D", 2, 2, null },
-                    { 3, "Gerçekten çok güzel anlatılmış :)", 2, 3, null }
+                    { 4, 3, 1 },
+                    { 5, 3, 2 }
                 });
 
             migrationBuilder.InsertData(
@@ -531,6 +526,18 @@ namespace WebApi.Migrations
                     { 3, 1, "React'e component", "react3.mp4" },
                     { 4, 2, "Flutter'a giris", "flutter.mp4" }
                 });
+
+            migrationBuilder.InsertData(
+                schema: "course",
+                table: "Review",
+                columns: new[] { "Id", "Content", "CourseId", "UserId" },
+                values: new object[] { 1, "Çok başarılı bir kurs olmuş!", 1, "a1" });
+
+            migrationBuilder.InsertData(
+                schema: "course",
+                table: "Review",
+                columns: new[] { "Id", "Content", "CourseId", "UserId" },
+                values: new object[] { 2, "Sade ve güzel bir anlatım olmuş, harika :D", 2, "a1" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -624,10 +631,10 @@ namespace WebApi.Migrations
                 column: "CourseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Review_UserId1",
+                name: "IX_Review_UserId",
                 schema: "course",
                 table: "Review",
-                column: "UserId1");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Step_CourseId",
@@ -642,10 +649,10 @@ namespace WebApi.Migrations
                 column: "StepId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserStep_UserId1",
+                name: "IX_UserStep_UserId",
                 schema: "user",
                 table: "UserStep",
-                column: "UserId1");
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

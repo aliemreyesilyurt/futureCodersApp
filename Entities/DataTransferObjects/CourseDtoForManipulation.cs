@@ -18,5 +18,8 @@ namespace Entities.DataTransferObjects
 
         [Required(ErrorMessage = "IsRequire is a required field.")]
         public bool IsRequire { get; init; }
+
+        [Required(ErrorMessage = "Rank Id is a require field.")]
+        public ICollection<int> RankIds { get; set; }
     }
 }
