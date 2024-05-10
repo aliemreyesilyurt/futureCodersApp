@@ -37,7 +37,7 @@ namespace Repositories.EFCore
             modelBuilder.ApplyConfiguration(new GenderConfig());
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfig());
-            //modelBuilder.ApplyConfiguration(new UserStepConfig());
+            modelBuilder.ApplyConfiguration(new UserStepConfig());
             modelBuilder.ApplyConfiguration(new BlogConfig());
 
             // bu kullanim sayesinde IEntityTypeConfiguration ifadesini kullanan ifadeleri dogrudan cagirir

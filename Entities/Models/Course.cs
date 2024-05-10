@@ -9,6 +9,7 @@ namespace Entities.Models
         public string CourseName { get; set; }
         public string CourseDescription { get; set; }
         public string CourseThumbnail { get; set; }
+        public bool IsOver { get; set; } = false;
         public bool IsRequire { get; set; }
     }
 }

@@ -20,6 +20,7 @@ namespace Entities.DataTransferObjects
 
         public int? RankId { get; set; }
 
+        [Required(ErrorMessage = "Roles is required.")]
         public ICollection<string>? Roles { get; init; }
     }
 }

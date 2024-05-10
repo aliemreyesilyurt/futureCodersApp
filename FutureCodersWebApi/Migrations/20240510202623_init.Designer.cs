@@ -12,7 +12,7 @@ using Repositories.EFCore;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20240427142354_init")]
+    [Migration("20240510202623_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -92,6 +92,9 @@ namespace WebApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsOver")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsRequire")
                         .HasColumnType("bit");
 
@@ -106,6 +109,7 @@ namespace WebApi.Migrations
                             CourseDescription = "This course is a react course",
                             CourseName = "React",
                             CourseThumbnail = "React.path",
+                            IsOver = false,
                             IsRequire = true
                         },
                         new
@@ -114,6 +118,7 @@ namespace WebApi.Migrations
                             CourseDescription = "This course is a flutter course",
                             CourseName = "Flutter",
                             CourseThumbnail = "Flutter.path",
+                            IsOver = false,
                             IsRequire = false
                         },
                         new
@@ -122,6 +127,7 @@ namespace WebApi.Migrations
                             CourseDescription = "This course is a bootstrap 5 course",
                             CourseName = "Bootstrap",
                             CourseThumbnail = "Bootstrap.path",
+                            IsOver = false,
                             IsRequire = false
                         });
                 });
@@ -172,6 +178,12 @@ namespace WebApi.Migrations
                             Id = 4,
                             CourseId = 3,
                             RankId = 1
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CourseId = 3,
+                            RankId = 2
                         });
                 });
 
@@ -242,8 +254,8 @@ namespace WebApi.Migrations
                     b.Property<int>("QuestionOptionId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("UserId1")
                         .HasColumnType("nvarchar(450)");
@@ -351,17 +363,15 @@ namespace WebApi.Migrations
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId1")
+                    b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CourseId");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Review", "course");
 
@@ -371,21 +381,14 @@ namespace WebApi.Migrations
                             Id = 1,
                             Content = "Çok başarılı bir kurs olmuş!",
                             CourseId = 1,
-                            UserId = 2
+                            UserId = "a1"
                         },
                         new
                         {
                             Id = 2,
                             Content = "Sade ve güzel bir anlatım olmuş, harika :D",
                             CourseId = 2,
-                            UserId = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Content = "Gerçekten çok güzel anlatılmış :)",
-                            CourseId = 2,
-                            UserId = 3
+                            UserId = "a1"
                         });
                 });
 
@@ -533,6 +536,25 @@ namespace WebApi.Migrations
                     b.HasIndex("RankId");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "a1",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "573f0c6f-13b8-449f-a3a3-c1a2167f5203",
+                            EmailConfirmed = false,
+                            FirstName = "Ali Emre",
+                            GenderId = 1,
+                            IsAvailable = false,
+                            LastName = "Yeşilyurt",
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            RankId = 1,
+                            RefreshTokenExpiryTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SecurityStamp = "be8ab799-6401-4509-aaa5-a2865ed3ddbe",
+                            TwoFactorEnabled = false
+                        });
                 });
 
             modelBuilder.Entity("Entities.Models.UserStep", b =>
@@ -546,10 +568,7 @@ namespace WebApi.Migrations
                     b.Property<int>("StepId")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("UserId1")
+                    b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
@@ -557,7 +576,7 @@ namespace WebApi.Migrations
 
                     b.HasIndex("StepId");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("UserStep", "user");
                 });
@@ -591,15 +610,15 @@ namespace WebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "e70e1dbc-7aa2-4ef5-8db2-6cd6faf0d874",
-                            ConcurrencyStamp = "435e12d3-a5af-4300-b44e-b3bceddbdc7e",
+                            Id = "277b8448-2b29-4466-a051-875d883bc9a6",
+                            ConcurrencyStamp = "6dd29379-a437-4f85-b383-c5a995d93d0c",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "1bfb7b91-5a05-4230-b953-28ae9f0972f3",
-                            ConcurrencyStamp = "736f7356-1ce1-4a0b-a3a8-13dae18a8874",
+                            Id = "dd3a2120-9071-41ce-b504-eee5353be2f2",
+                            ConcurrencyStamp = "c0441d15-7898-4970-a9ff-6e1e857364b1",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -779,7 +798,9 @@ namespace WebApi.Migrations
 
                     b.HasOne("Entities.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Course");
 
@@ -822,7 +843,7 @@ namespace WebApi.Migrations
 
                     b.HasOne("Entities.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId1")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

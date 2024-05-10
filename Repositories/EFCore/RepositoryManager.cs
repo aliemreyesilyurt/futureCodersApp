@@ -9,8 +9,8 @@ namespace Repositories.EFCore
         private readonly ICourseRankRepository _courseRankRepository;
         private readonly IBlogRepository _blogRepository;
 
-        public RepositoryManager(RepositoryContext context
-            , ICourseRepository courseRepository,
+        public RepositoryManager(RepositoryContext context,
+            ICourseRepository courseRepository,
             ICourseRankRepository courseRankRepository,
             IBlogRepository blogRepository)
         {
