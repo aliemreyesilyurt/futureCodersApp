@@ -1,6 +1,5 @@
 ﻿using AspNetCoreRateLimit;
 using Entities.Models;
-using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -53,20 +52,6 @@ namespace WebApi.Extensions
                 );
             });
         }
-
-        public static void ConfigureResponseCaching(this IServiceCollection services) =>
-            services.AddResponseCaching();
-
-        public static void ConfigureHttpCacheHeaders(this IServiceCollection services) =>
-            services.AddHttpCacheHeaders(expirationOpt =>
-            {
-                expirationOpt.MaxAge = 90;
-                expirationOpt.CacheLocation = CacheLocation.Public;
-            },
-            validateOpt =>
-            {
-                validateOpt.MustRevalidate = true;
-            });
 
         public static void ConfigureRateLimitingOptions(this IServiceCollection services)
         {

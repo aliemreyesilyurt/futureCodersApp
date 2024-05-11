@@ -1,6 +1,8 @@
 ﻿using Entities.Models;
+using Entities.RequestFeatures;
 using Microsoft.EntityFrameworkCore;
 using Repositories.Contracts;
+using Repositories.EFCore.Extensions;
 
 namespace Repositories.EFCore
 {
@@ -16,10 +18,19 @@ namespace Repositories.EFCore
 
         public void DeleteOneBlog(Blog blog) => Delete(blog);
 
-        public async Task<IEnumerable<Blog>> GetAllBlogsAsync(bool trackChanges) =>
-            await FindAll(trackChanges)
-                .OrderBy(b => b.Title)
+        public async Task<PagedList<Blog>> GetAllBlogsAsync(BlogParameters blogParameters, bool trackChanges)
+        {
+            var blogs = await FindAll(trackChanges)
+                .Search(blogParameters.SearchTerm)
+                .Sort(blogParameters.OrderBy)
                 .ToListAsync();
+
+
+            return PagedList<Blog>
+            .ToPagedList(blogs,
+                blogParameters.PageNumber,
+                blogParameters.PageSize);
+        }
 
         public async Task<Blog> GetOneBlogByIdAsync(int id, bool trackChanges) =>
             await FindByCondition(b => b.Id.Equals(id), trackChanges)

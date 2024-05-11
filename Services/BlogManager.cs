@@ -2,6 +2,7 @@
 using Entities.DataTransferObjects;
 using Entities.Exceptions;
 using Entities.Models;
+using Entities.RequestFeatures;
 using Repositories.Contracts;
 using Services.Contracts;
 
@@ -13,6 +14,8 @@ namespace Services
         private readonly ILoggerService _logger;
         private readonly IMapper _mapper;
 
+        private const string MediaFolderPath = "Media/Blogs/";
+
         public BlogManager(IRepositoryManager manager, ILoggerService logger, IMapper mapper)
         {
             _manager = manager;
@@ -20,7 +23,7 @@ namespace Services
             _mapper = mapper;
         }
 
-        // CREATE
+        // Create
         public async Task<BlogDto> CreateOneBlogAsync(BlogDtoForInsertion blogDto)
         {
             var entity = _mapper.Map<Blog>(blogDto);
@@ -31,45 +34,65 @@ namespace Services
             //ustteki kullanimda entity(Blog) BlogDto'ya donusturulur
         }
 
-        // DELETE
+        // Delete
         public async Task DeleteOneBlogAsync(int id, bool trackChanges)
         {
-            //check entity
-            var entity = await GetOneBlogByIdAndCheckExist(id, trackChanges);
 
-            _manager.Blog.DeleteOneBlog(entity);
+            //check entity
+            var blog = await GetOneBlogByIdAndCheckExist(id, trackChanges);
+
+            var filePath = Path.Combine(MediaFolderPath, blog.BlogImage);
+
+            _manager.Blog.DeleteOneBlog(blog);
+
+            if (File.Exists(filePath))
+                File.Delete(filePath);
+
             await _manager.SaveAsync();
         }
 
-        // GET-ALL
-        public async Task<IEnumerable<Blog>> GetAllBlogsAsync(bool trackChanges)
+        // Get-All
+        public async Task<(IEnumerable<BlogDto> blogs, MetaData metaData)> GetAllBlogsAsync(BlogParameters blogParameters, bool trackChanges)
         {
-            return await _manager
+            var blogsWithMetaData = await _manager
                 .Blog
-                .GetAllBlogsAsync(trackChanges);
+                .GetAllBlogsAsync(blogParameters, trackChanges);
+
+            var blogsDto = _mapper.Map<IEnumerable<BlogDto>>(blogsWithMetaData);
+
+            return (blogsDto, blogsWithMetaData.MetaData);
         }
 
-        // GET-ONE
-        public async Task<Blog> GetOneBlogByIdAsync(int id, bool trackChanges)
+        // Get-One
+        public async Task<BlogDto> GetOneBlogByIdAsync(int id, bool trackChanges)
         {
             //check entity
             var blog = await GetOneBlogByIdAndCheckExist(id, trackChanges);
 
-            return blog;
+            var blogDto = _mapper.Map<BlogDto>(blog);
+
+            return blogDto;
         }
 
-        // PATCH
-        public async Task<(BlogDtoForUpdate blodDtoForUpdate, Blog blog)> GetOneBlogForPatchAsync(int id, bool trackChanges)
+        // Patch
+        public async Task UpdateOneBlogImageAsync(int id, string fileName, bool trackChanges)
         {
             //check entity
             var blog = await GetOneBlogByIdAndCheckExist(id, trackChanges);
 
-            var blogDtoForUpdate = _mapper.Map<BlogDtoForUpdate>(blog);
+            var filePath = Path.Combine(MediaFolderPath, blog.BlogImage);
 
-            return (blogDtoForUpdate, blog); // (Tuple)
+            blog.BlogImage = fileName;
+
+            _manager.Blog.Update(blog);
+
+            if (File.Exists(filePath))
+                File.Delete(filePath);
+
+            await _manager.SaveAsync();
         }
 
-        // UPDATE
+        // Update
         public async Task UpdateOneBlogAsync(int id, BlogDtoForUpdate blogDto, bool trackChanges)
         {
             //check entity
@@ -82,7 +105,7 @@ namespace Services
             await _manager.SaveAsync();
         }
 
-        // SAVE
+        // Save
         public async Task SaveChangesForUpdateAsync(BlogDtoForUpdate blogDtoForUpdate, Blog blog)
         {
             _mapper.Map(blogDtoForUpdate, blog);
