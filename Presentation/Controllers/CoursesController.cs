@@ -14,8 +14,6 @@ namespace Presentation.Controllers
     [ServiceFilter(typeof(LogFilterAttribute))]
     [ApiController]
     [Route("api/courses")]
-    //[ResponseCache(CacheProfileName = "5mins")]
-    //[HttpCacheExpiration(CacheLocation = CacheLocation.Public, MaxAge = 80)]
     public class CoursesController : ControllerBase
     {
         private readonly IServiceManager _manager;
@@ -29,7 +27,7 @@ namespace Presentation.Controllers
         // Get
         [Authorize] // bu kullanim ile tum roller erisebilir
         [HttpGet]
-        //[ResponseCache(Duration = 60)] //Bu kullanim metoda daha yakin oldugu icin bu cache yapisi kullanilir
+        //[ResponseCache(Duration = 30)] //Bu kullanim metoda daha yakin oldugu icin bu cache yapisi kullanilir
         public async Task<IActionResult> GetAllCoursesAsync([FromQuery] CourseParameters courseParameters)
         {
             var pagedResult = await _manager

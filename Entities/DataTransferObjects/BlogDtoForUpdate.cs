@@ -2,7 +2,7 @@
 
 namespace Entities.DataTransferObjects
 {
-    public record BlogDtoForUpdate
+    public record BlogDtoForUpdate : BlogDtoForManipulation
     {
         [Required]
         public int Id { get; init; }
