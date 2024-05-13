@@ -142,6 +142,7 @@ namespace WebApi.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     VideoPath = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Status = table.Column<bool>(type: "bit", nullable: false),
                     CourseId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -450,30 +451,8 @@ namespace WebApi.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "277b8448-2b29-4466-a051-875d883bc9a6", "6dd29379-a437-4f85-b383-c5a995d93d0c", "User", "USER" },
-                    { "dd3a2120-9071-41ce-b504-eee5353be2f2", "c0441d15-7898-4970-a9ff-6e1e857364b1", "Admin", "ADMIN" }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "blog",
-                table: "Blog",
-                columns: new[] { "Id", "BlogImage", "Content", "Title" },
-                values: new object[,]
-                {
-                    { 1, "", "Backend ile ilgili yol haritası!", "Backend Blog" },
-                    { 2, "", "Frontend ile ilgili yol haritası", "Frontend Blog" },
-                    { 3, "", "Mobil uygulama ile ilgili yol haritası!", "Mobile Blog" }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "course",
-                table: "Course",
-                columns: new[] { "Id", "CourseDescription", "CourseName", "CourseThumbnail", "IsOver", "IsRequire" },
-                values: new object[,]
-                {
-                    { 1, "This course is a react course", "React", "React.path", false, true },
-                    { 2, "This course is a flutter course", "Flutter", "Flutter.path", false, false },
-                    { 3, "This course is a bootstrap 5 course", "Bootstrap", "Bootstrap.path", false, false }
+                    { "102e3695-ed4c-43f4-b97f-de08cfeab788", "bda939e5-281b-4440-8c8d-bab8f9aa7e28", "User", "USER" },
+                    { "18c9b791-25d9-4253-a822-3fe35ba42845", "4ae710a0-48d9-43b4-b339-0b3f239f3f2f", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
@@ -496,48 +475,6 @@ namespace WebApi.Migrations
                     { 1, "Beta", true },
                     { 2, "Alfa", true }
                 });
-
-            migrationBuilder.InsertData(
-                table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "GenderId", "IsAvailable", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "RankId", "RefreshToken", "RefreshTokenExpiryTime", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "a1", 0, "573f0c6f-13b8-449f-a3a3-c1a2167f5203", null, false, "Ali Emre", 1, false, "Yeşilyurt", false, null, null, null, null, null, false, 1, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "be8ab799-6401-4509-aaa5-a2865ed3ddbe", false, null });
-
-            migrationBuilder.InsertData(
-                schema: "course",
-                table: "CourseRank",
-                columns: new[] { "Id", "CourseId", "RankId" },
-                values: new object[,]
-                {
-                    { 1, 1, 1 },
-                    { 2, 2, 1 },
-                    { 3, 2, 2 },
-                    { 4, 3, 1 },
-                    { 5, 3, 2 }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "course",
-                table: "Step",
-                columns: new[] { "Id", "CourseId", "Title", "VideoPath" },
-                values: new object[,]
-                {
-                    { 1, 1, "React'e giris", "react1.mp4" },
-                    { 2, 1, "React'e JX formati", "react2.mp4" },
-                    { 3, 1, "React'e component", "react3.mp4" },
-                    { 4, 2, "Flutter'a giris", "flutter.mp4" }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "course",
-                table: "Review",
-                columns: new[] { "Id", "Content", "CourseId", "UserId" },
-                values: new object[] { 1, "Çok başarılı bir kurs olmuş!", 1, "a1" });
-
-            migrationBuilder.InsertData(
-                schema: "course",
-                table: "Review",
-                columns: new[] { "Id", "Content", "CourseId", "UserId" },
-                values: new object[] { 2, "Sade ve güzel bir anlatım olmuş, harika :D", 2, "a1" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

@@ -30,15 +30,15 @@ namespace Repositories.EFCore
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfiguration(new RankConfig());
-            modelBuilder.ApplyConfiguration(new ReviewConfig());
-            modelBuilder.ApplyConfiguration(new CourseConfig());
-            modelBuilder.ApplyConfiguration(new CourseRankConfig());
-            modelBuilder.ApplyConfiguration(new StepConfig());
+            //modelBuilder.ApplyConfiguration(new ReviewConfig());
+            //modelBuilder.ApplyConfiguration(new CourseConfig());
+            //modelBuilder.ApplyConfiguration(new CourseRankConfig());
+            //modelBuilder.ApplyConfiguration(new StepConfig());
             modelBuilder.ApplyConfiguration(new GenderConfig());
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
-            modelBuilder.ApplyConfiguration(new UserConfig());
-            modelBuilder.ApplyConfiguration(new UserStepConfig());
-            modelBuilder.ApplyConfiguration(new BlogConfig());
+            //modelBuilder.ApplyConfiguration(new UserConfig());
+            //modelBuilder.ApplyConfiguration(new UserStepConfig());
+            //modelBuilder.ApplyConfiguration(new BlogConfig());
 
             // bu kullanim sayesinde IEntityTypeConfiguration ifadesini kullanan ifadeleri dogrudan cagirir
             //modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

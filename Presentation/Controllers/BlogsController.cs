@@ -9,8 +9,8 @@ using System.Text.Json;
 
 namespace Presentation.Controllers
 {
-    [ApiExplorerSettings(GroupName = "v1")]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "v1")]
     [ServiceFilter(typeof(LogFilterAttribute))]
     [Route("api/blogs")]
     public class BlogsController : ControllerBase
@@ -48,7 +48,6 @@ namespace Presentation.Controllers
 
             if (blog == null)
                 return NotFound();
-
 
             return Ok(blog);
         }
