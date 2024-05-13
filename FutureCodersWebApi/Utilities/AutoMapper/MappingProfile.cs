@@ -16,6 +16,10 @@ namespace WebApi.Utilities.AutoMapper
             CreateMap<Blog, BlogDto>();
             CreateMap<BlogDtoForInsertion, Blog>();
 
+            CreateMap<StepDtoForUpdate, Step>().ReverseMap();
+            CreateMap<Step, StepDto>();
+            CreateMap<StepDtoForInsertion, Step>();
+
             CreateMap<UserForRegistirationDto, User>();
         }
     }

@@ -173,12 +173,14 @@ namespace WebApi.Extensions
             services.AddScoped<ICourseRepository, CourseRepository>();
             services.AddScoped<ICourseRankRepository, CourseRankRepository>();
             services.AddScoped<IBlogRepository, BlogRepository>();
+            services.AddScoped<IStepRepository, StepRepository>();
         }
 
         public static void RegisterServices(this IServiceCollection services)
         {
             services.AddScoped<ICourseService, CourseManager>();
             services.AddScoped<IBlogService, BlogManager>();
+            services.AddScoped<IStepService, StepManager>();
             services.AddScoped<IAuthenticationService, AuthenticationManager>();
         }
     }

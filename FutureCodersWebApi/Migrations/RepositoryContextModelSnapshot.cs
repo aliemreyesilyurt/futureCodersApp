@@ -45,29 +45,6 @@ namespace WebApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Blog", "blog");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            BlogImage = "",
-                            Content = "Backend ile ilgili yol haritası!",
-                            Title = "Backend Blog"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            BlogImage = "",
-                            Content = "Frontend ile ilgili yol haritası",
-                            Title = "Frontend Blog"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            BlogImage = "",
-                            Content = "Mobil uygulama ile ilgili yol haritası!",
-                            Title = "Mobile Blog"
-                        });
                 });
 
             modelBuilder.Entity("Entities.Models.Course", b =>
@@ -99,35 +76,6 @@ namespace WebApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Course", "course");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CourseDescription = "This course is a react course",
-                            CourseName = "React",
-                            CourseThumbnail = "React.path",
-                            IsOver = false,
-                            IsRequire = true
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CourseDescription = "This course is a flutter course",
-                            CourseName = "Flutter",
-                            CourseThumbnail = "Flutter.path",
-                            IsOver = false,
-                            IsRequire = false
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CourseDescription = "This course is a bootstrap 5 course",
-                            CourseName = "Bootstrap",
-                            CourseThumbnail = "Bootstrap.path",
-                            IsOver = false,
-                            IsRequire = false
-                        });
                 });
 
             modelBuilder.Entity("Entities.Models.CourseRank", b =>
@@ -151,38 +99,6 @@ namespace WebApi.Migrations
                     b.HasIndex("RankId");
 
                     b.ToTable("CourseRank", "course");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CourseId = 1,
-                            RankId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CourseId = 2,
-                            RankId = 1
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CourseId = 2,
-                            RankId = 2
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CourseId = 3,
-                            RankId = 1
-                        },
-                        new
-                        {
-                            Id = 5,
-                            CourseId = 3,
-                            RankId = 2
-                        });
                 });
 
             modelBuilder.Entity("Entities.Models.Gender", b =>
@@ -372,22 +288,6 @@ namespace WebApi.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Review", "course");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Content = "Çok başarılı bir kurs olmuş!",
-                            CourseId = 1,
-                            UserId = "a1"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Content = "Sade ve güzel bir anlatım olmuş, harika :D",
-                            CourseId = 2,
-                            UserId = "a1"
-                        });
                 });
 
             modelBuilder.Entity("Entities.Models.Step", b =>
@@ -400,6 +300,9 @@ namespace WebApi.Migrations
 
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -414,36 +317,6 @@ namespace WebApi.Migrations
                     b.HasIndex("CourseId");
 
                     b.ToTable("Step", "course");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CourseId = 1,
-                            Title = "React'e giris",
-                            VideoPath = "react1.mp4"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CourseId = 1,
-                            Title = "React'e JX formati",
-                            VideoPath = "react2.mp4"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CourseId = 1,
-                            Title = "React'e component",
-                            VideoPath = "react3.mp4"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CourseId = 2,
-                            Title = "Flutter'a giris",
-                            VideoPath = "flutter.mp4"
-                        });
                 });
 
             modelBuilder.Entity("Entities.Models.User", b =>
@@ -534,25 +407,6 @@ namespace WebApi.Migrations
                     b.HasIndex("RankId");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "a1",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "573f0c6f-13b8-449f-a3a3-c1a2167f5203",
-                            EmailConfirmed = false,
-                            FirstName = "Ali Emre",
-                            GenderId = 1,
-                            IsAvailable = false,
-                            LastName = "Yeşilyurt",
-                            LockoutEnabled = false,
-                            PhoneNumberConfirmed = false,
-                            RankId = 1,
-                            RefreshTokenExpiryTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "be8ab799-6401-4509-aaa5-a2865ed3ddbe",
-                            TwoFactorEnabled = false
-                        });
                 });
 
             modelBuilder.Entity("Entities.Models.UserStep", b =>
@@ -608,15 +462,15 @@ namespace WebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "277b8448-2b29-4466-a051-875d883bc9a6",
-                            ConcurrencyStamp = "6dd29379-a437-4f85-b383-c5a995d93d0c",
+                            Id = "102e3695-ed4c-43f4-b97f-de08cfeab788",
+                            ConcurrencyStamp = "bda939e5-281b-4440-8c8d-bab8f9aa7e28",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "dd3a2120-9071-41ce-b504-eee5353be2f2",
-                            ConcurrencyStamp = "c0441d15-7898-4970-a9ff-6e1e857364b1",
+                            Id = "18c9b791-25d9-4253-a822-3fe35ba42845",
+                            ConcurrencyStamp = "4ae710a0-48d9-43b4-b339-0b3f239f3f2f",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });

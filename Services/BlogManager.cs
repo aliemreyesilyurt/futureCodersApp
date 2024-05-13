@@ -37,7 +37,6 @@ namespace Services
         // Delete
         public async Task DeleteOneBlogAsync(int id, bool trackChanges)
         {
-
             //check entity
             var blog = await GetOneBlogByIdAndCheckExist(id, trackChanges);
 
@@ -74,7 +73,20 @@ namespace Services
             return blogDto;
         }
 
-        // Patch
+        // Update
+        public async Task UpdateOneBlogAsync(int id, BlogDtoForUpdate blogDto, bool trackChanges)
+        {
+            //check entity
+            var entity = await GetOneBlogByIdAndCheckExist(id, trackChanges);
+
+            //mappig
+            entity = _mapper.Map<Blog>(blogDto);
+
+            _manager.Blog.Update(entity);
+            await _manager.SaveAsync();
+        }
+
+        // Patch-Image
         public async Task UpdateOneBlogImageAsync(int id, string fileName, bool trackChanges)
         {
             //check entity
@@ -92,26 +104,7 @@ namespace Services
             await _manager.SaveAsync();
         }
 
-        // Update
-        public async Task UpdateOneBlogAsync(int id, BlogDtoForUpdate blogDto, bool trackChanges)
-        {
-            //check entity
-            var entity = await GetOneBlogByIdAndCheckExist(id, trackChanges);
-
-            //mappig
-            entity = _mapper.Map<Blog>(blogDto);
-
-            _manager.Blog.Update(entity);
-            await _manager.SaveAsync();
-        }
-
-        // Save
-        public async Task SaveChangesForUpdateAsync(BlogDtoForUpdate blogDtoForUpdate, Blog blog)
-        {
-            _mapper.Map(blogDtoForUpdate, blog);
-            await _manager.SaveAsync();
-        }
-
+        // Check
         private async Task<Blog> GetOneBlogByIdAndCheckExist(int id, bool trackChanges)
         {
             //check entity

@@ -4,6 +4,7 @@
     {
         ICourseService CourseService { get; }
         IBlogService BlogService { get; }
+        IStepService StepService { get; }
         IAuthenticationService AuthenticationService { get; }
     }
 }

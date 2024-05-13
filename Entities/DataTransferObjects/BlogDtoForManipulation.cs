@@ -12,8 +12,6 @@ namespace Entities.DataTransferObjects
         [Required(ErrorMessage = "Blog content is a required field.")]
         [MinLength(50, ErrorMessage = "Blog content consist of at least 50 characters.")]
         public string Content { get; init; }
-
-        //[Required(ErrorMessage = "Blog thumbnail is a required field.")]
         public string? BlogImage { get; set; }
     }
 }
