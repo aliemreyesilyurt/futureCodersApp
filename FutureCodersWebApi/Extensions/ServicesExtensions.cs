@@ -174,6 +174,7 @@ namespace WebApi.Extensions
             services.AddScoped<ICourseRankRepository, CourseRankRepository>();
             services.AddScoped<IBlogRepository, BlogRepository>();
             services.AddScoped<IStepRepository, StepRepository>();
+            services.AddScoped<IReviewRepository, ReviewRepository>();
         }
 
         public static void RegisterServices(this IServiceCollection services)
@@ -181,6 +182,7 @@ namespace WebApi.Extensions
             services.AddScoped<ICourseService, CourseManager>();
             services.AddScoped<IBlogService, BlogManager>();
             services.AddScoped<IStepService, StepManager>();
+            services.AddScoped<IReviewService, ReviewManager>();
             services.AddScoped<IAuthenticationService, AuthenticationManager>();
         }
     }
