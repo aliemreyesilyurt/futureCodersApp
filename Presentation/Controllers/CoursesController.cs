@@ -10,9 +10,9 @@ using System.Text.Json;
 namespace Presentation.Controllers
 {
     //[Authorize]
+    [ApiController]
     [ApiExplorerSettings(GroupName = "v1")]
     [ServiceFilter(typeof(LogFilterAttribute))]
-    [ApiController]
     [Route("api/courses")]
     public class CoursesController : ControllerBase
     {

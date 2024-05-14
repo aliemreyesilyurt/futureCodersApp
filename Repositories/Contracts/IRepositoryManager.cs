@@ -6,6 +6,7 @@
         ICourseRankRepository CourseRank { get; }
         IBlogRepository Blog { get; }
         IStepRepository Step { get; }
+        IReviewRepository Review { get; }
         Task SaveAsync();
     }
 }

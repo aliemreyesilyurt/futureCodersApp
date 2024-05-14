@@ -20,6 +20,10 @@ namespace WebApi.Utilities.AutoMapper
             CreateMap<Step, StepDto>();
             CreateMap<StepDtoForInsertion, Step>();
 
+            CreateMap<ReviewDtoForUpdate, Review>().ReverseMap();
+            CreateMap<Review, ReviewDto>();
+            CreateMap<ReviewDtoForInsertion, Review>();
+
             CreateMap<UserForRegistirationDto, User>();
         }
     }
