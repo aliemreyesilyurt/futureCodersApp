@@ -88,7 +88,6 @@ namespace WebApi.Extensions
                 options.Password.RequireNonAlphanumeric = true;
                 options.Password.RequiredLength = 10;
 
-                //options.SignIn.RequireConfirmedEmail = true; Gerekirse ilerde bunu yapacagiz!!!!!
                 options.User.RequireUniqueEmail = true;
             })
                 .AddEntityFrameworkStores<RepositoryContext>()

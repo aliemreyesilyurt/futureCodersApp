@@ -24,6 +24,8 @@ namespace WebApi.Utilities.AutoMapper
             CreateMap<Review, ReviewDto>();
             CreateMap<ReviewDtoForInsertion, Review>();
 
+            CreateMap<UserDtoForUpdate, User>().ReverseMap();
+            CreateMap<User, UserDto>();
             CreateMap<UserForRegistirationDto, User>();
         }
     }

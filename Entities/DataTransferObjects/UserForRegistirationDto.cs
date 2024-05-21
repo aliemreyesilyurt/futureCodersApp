@@ -14,11 +14,11 @@ namespace Entities.DataTransferObjects
         public string? Password { get; init; }
 
         public string? Email { get; init; }
-        public bool? IsAvailable { get; init; }
+        public bool? IsAvailable { get; init; } = false;
 
         public int? GenderId { get; set; }
 
-        public int? RankId { get; set; }
+        public int? RankId { get; set; } = null;
 
         [Required(ErrorMessage = "Roles is required.")]
         public ICollection<string>? Roles { get; init; }
