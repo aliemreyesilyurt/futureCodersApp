@@ -14,5 +14,6 @@ namespace Services.Contracts
         Task<(CourseDtoForUpdate courseDtoForUpdate, Course course)> GetOneCourseForPatchAsync(int id, bool trackChanges);
         Task SaveChangesForUpdateAsync(CourseDtoForUpdate courseDto, Course course);
         Task UpdateOneCourseStatusAsync(int courseId, bool trackChanges);
+        Task UpdateOneCourseImageAsync(int id, string fileName, bool trackChanges);
     }
 }

@@ -67,7 +67,6 @@ namespace Presentation.Controllers
                 .BlogService
                 .CreateOneBlogAsync(blogDto);
 
-
             return StatusCode(201, blog);
         }
 

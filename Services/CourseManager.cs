@@ -13,6 +13,8 @@ namespace Services
         private readonly IRepositoryManager _manager;
         private readonly ILoggerService _logger;
         private readonly IMapper _mapper;
+
+        private const string MediaFolderPath = "Media/Courses/";
         public CourseManager(IRepositoryManager manager, ILoggerService logger, IMapper mapper)
         {
             _manager = manager;
@@ -101,7 +103,13 @@ namespace Services
             //check entity
             var course = await GetOneCourseByIdAndCheckExists(id, trackChanges);
 
+            var filePath = Path.Combine(MediaFolderPath, course.CourseThumbnail);
+
             _manager.Course.DeleteOneCourse(course);
+
+            if (File.Exists(filePath))
+                File.Delete(filePath);
+
             await _manager.SaveAsync();
         }
 
@@ -196,6 +204,24 @@ namespace Services
                 .GetOneCourseByIdAsync(courseId, trackChanges);
 
             course.IsOver = true;
+        }
+
+        // Patch-Image
+        public async Task UpdateOneCourseImageAsync(int id, string fileName, bool trackChanges)
+        {
+            //check entity
+            var course = await GetOneCourseByIdAndCheckExists(id, trackChanges);
+
+            var filePath = Path.Combine(MediaFolderPath, course.CourseThumbnail);
+
+            course.CourseThumbnail = fileName;
+
+            _manager.Course.Update(course);
+
+            if (File.Exists(filePath))
+                File.Delete(filePath);
+
+            await _manager.SaveAsync();
         }
 
         private async Task<Course> GetOneCourseByIdAndCheckExists(int id, bool trackChanges)
