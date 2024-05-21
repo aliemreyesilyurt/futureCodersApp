@@ -58,8 +58,11 @@ namespace Presentation.Controllers
                 .GetOneCourseByIdAsync(reviewDto.CourseId, false);
 
             //check userId
+            var user = await _manager
+                .AuthenticationService
+                .GetOneUserByIdAsync(reviewDto.UserId);
 
-            if (course is null)
+            if (course is null || user is null)
                 return NotFound();
 
             var review = await _manager
@@ -94,8 +97,11 @@ namespace Presentation.Controllers
                 .GetOneCourseByIdAsync(reviewDto.CourseId, false);
 
             //check userId
+            var user = await _manager
+                .AuthenticationService
+                .GetOneUserByIdAsync(reviewDto.UserId);
 
-            if (course is null)
+            if (course is null || user is null)
                 return NotFound();
 
             await _manager.ReviewService.UpdateOneReviewAsync(id, reviewDto, false);

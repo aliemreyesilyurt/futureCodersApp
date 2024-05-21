@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.ActionFilters;
 using Services.Contracts;
+using System.Security.Claims;
 
 namespace Presentation.Controllers
 {
@@ -26,6 +27,12 @@ namespace Presentation.Controllers
         [Authorize]
         public async Task<IActionResult> GetAllStepsAsync([FromQuery] StepParameters stepParameters)
         {
+            var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var _user = await _manager
+                .AuthenticationService
+                .GetOneUserByIdAsync(id);
+
             var steps = await _manager
                 .StepService
                 .GetAllStepsAsync(stepParameters, false);

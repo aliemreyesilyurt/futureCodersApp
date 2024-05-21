@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <PackageReference Include="automapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Nlog.Extensions.Logging" Version="5.3.8" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.5.1" />
   </ItemGroup>
