@@ -1,6 +1,7 @@
 ﻿using Entities.DataTransferObjects;
 using Entities.RequestFeatures;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.ActionFilters;
@@ -17,6 +18,7 @@ namespace Presentation.Controllers
     public class CoursesController : ControllerBase
     {
         private readonly IServiceManager _manager;
+        private const string MediaFolderPath = "Media/Courses/";
 
         public CoursesController(IServiceManager manager)
         {
@@ -25,9 +27,8 @@ namespace Presentation.Controllers
 
 
         // Get
-        [Authorize] // bu kullanim ile tum roller erisebilir
         [HttpGet]
-        //[ResponseCache(Duration = 30)] //Bu kullanim metoda daha yakin oldugu icin bu cache yapisi kullanilir
+        [Authorize]
         public async Task<IActionResult> GetAllCoursesAsync([FromQuery] CourseParameters courseParameters)
         {
             var pagedResult = await _manager
@@ -40,8 +41,8 @@ namespace Presentation.Controllers
             return Ok(pagedResult.courses);
         }
 
-        [Authorize]
         [HttpGet("{id:int}")]
+        [Authorize]
         public async Task<IActionResult> GetOneCourseByIdAsync([FromRoute(Name = "id")] int id)
         {
             var course = await _manager
@@ -56,11 +57,16 @@ namespace Presentation.Controllers
         }
 
         // Post
-        [Authorize(Roles = "Admin")]
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> CreateOneCourseAsync([FromBody] CourseDtoForInsertion courseDto)
+        public async Task<IActionResult> CreateOneCourseAsync([FromForm] CourseDtoForInsertion courseDto, IFormFile file)
         {
+            var result = await CheckAndPathingFile(courseDto, file);
+
+            if (result.isValidate == false)
+                return BadRequest("Please provide a valid image file.");
+
             var course = await _manager
                 .CourseService
                 .CreateOneCourseAsync(courseDto);
@@ -69,11 +75,12 @@ namespace Presentation.Controllers
         }
 
         // Put
-        [Authorize(Roles = "Admin")]
         [HttpPut("{id:int}")]
+        [Authorize(Roles = "Admin")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> UpdateOneCourseAsync([FromRoute(Name = "id")] int id, [FromBody] CourseDtoForUpdate courseDto)
+        public async Task<IActionResult> UpdateOneCourseAsync([FromRoute(Name = "id")] int id, [FromForm] CourseDtoForUpdate courseDto, IFormFile file)
         {
+
             foreach (var rankId in courseDto.RankIds)
             {
                 if (rankId != 1 && rankId != 2)
@@ -81,25 +88,29 @@ namespace Presentation.Controllers
                         "If you want to create a course suitable for both ranks, you have to add them both with a comma(,)");
             }
 
-            await _manager.CourseService.UpdateOneCourseAsync(id, courseDto, false);
+            var result = await CheckAndPathingFile(courseDto, file);
 
-            return NoContent(); //204
+            if (result.isValidate == false)
+                return BadRequest("Please provide a valid image file.");
+
+            await _manager.CourseService.UpdateOneCourseAsync(id, result.courseDto, false);
+
+            return NoContent();
         }
 
         // Delete
-        [Authorize(Roles = "Admin")]
         [HttpDelete("{id:int}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteOneCourseByIdAsync([FromRoute(Name = "id")] int id)
         {
             await _manager.CourseService.DeleteOneCourseAsync(id, false);
-            //CourseManager uzerinde DeleteOneCourse metodunda entity kontrolu yapildigi icin burada tekrar yapmaya gerek yok!
 
             return NoContent();
         }
 
         // Patch
-        [Authorize(Roles = "Admin")]
         [HttpPatch("{id:int}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PartiallyUpdateOneCourseAsync([FromRoute(Name = "id")] int id, [FromBody] JsonPatchDocument<CourseDtoForUpdate> coursePatch)
         {
             //JsonPatchDocument<Course> : JSON verilerini bir varlık sinifi(orn. Course) uzerinde uygulamak icin kullanilir
@@ -121,13 +132,82 @@ namespace Presentation.Controllers
             return NoContent();
         }
 
+        // Patch
+        [HttpPatch("image/{id:int}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UpdateOneCourseImageAsync([FromRoute(Name = "id")] int id, IFormFile file)
+        {
+            // check entity
+            var entity = await _manager
+                .CourseService
+                .GetOneCourseByIdAsync(id, false);
+
+            if (entity is null)
+                return NotFound();
+
+            // check file
+            if (file is null || file.Length == 0 || !IsValidImageFile(file))
+                return BadRequest("Please provide a valid image file.");
+
+            var uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+            var filePath = Path.Combine(MediaFolderPath, uniqueFileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            await _manager.CourseService.UpdateOneCourseImageAsync(id, uniqueFileName, false);
+
+            return NoContent();
+        }
+
         // Options
-        [Authorize]
         [HttpOptions]
+        [Authorize]
         public IActionResult GetCourseOptions()
         {
             Response.Headers.Add("Allow", "GET, PUT, POST, PATCH, DELETE, OPTIONS");
             return Ok();
+        }
+
+        // Check File
+        private async Task<(T courseDto, bool isValidate)> CheckAndPathingFile<T>(T courseDto, IFormFile file)
+            where T : CourseDtoForManipulation
+        {
+            var isValidate = true;
+
+            if (file is null || file.Length == 0 || !IsValidImageFile(file))
+                isValidate = false;
+
+            if (isValidate)
+            {
+                var uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+                var filePath = Path.Combine(MediaFolderPath, uniqueFileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                courseDto.CourseThumbnail = uniqueFileName;
+            }
+
+            return (courseDto, isValidate);
+        }
+
+        // Image Validation
+        private bool IsValidImageFile(IFormFile file)
+        {
+            if (file.ContentType.ToLower() != "image/jpg" &&
+                file.ContentType.ToLower() != "image/jpeg" &&
+                file.ContentType.ToLower() != "image/png")
+            {
+                return false;
+            }
+
+            var extension = Path.GetExtension(file.FileName).ToLower();
+            return extension == ".jpg" || extension == ".png" || extension == ".jpeg";
         }
     }
 }

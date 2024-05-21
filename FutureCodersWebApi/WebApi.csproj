@@ -32,6 +32,7 @@
 
   <ItemGroup>
     <Folder Include="Media\Blogs\" />
+    <Folder Include="Media\Courses\" />
   </ItemGroup>
 
 </Project>
