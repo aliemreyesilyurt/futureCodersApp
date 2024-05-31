@@ -27,15 +27,25 @@ namespace Presentation.Controllers
         [Authorize]
         public async Task<IActionResult> GetAllStepsAsync([FromQuery] StepParameters stepParameters)
         {
-            var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var role = User.Claims
+                .FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
 
-            var _user = await _manager
-                .AuthenticationService
-                .GetOneUserByIdAsync(id);
+            var stepIds = new List<int>();
+
+            if (role == "User")
+            {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                var userSteps = await _manager
+                    .UserStepService
+                    .GetAllUserStepsAsync(userId, false);
+
+                stepIds = userSteps.StepIds;
+            }
 
             var steps = await _manager
                 .StepService
-                .GetAllStepsAsync(stepParameters, false);
+                .GetAllStepsAsync(stepParameters, stepIds, false);
 
             return Ok(steps);
         }
@@ -44,12 +54,31 @@ namespace Presentation.Controllers
         [Authorize]
         public async Task<IActionResult> GetOneStepAsync([FromRoute] int id)
         {
+            var role = User.Claims
+                .FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+
+            var stepIds = new List<int>();
+
+            if (role == "User")
+            {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                var userSteps = await _manager
+                    .UserStepService
+                    .GetAllUserStepsAsync(userId, false);
+
+                stepIds = userSteps.StepIds;
+            }
+
             var step = await _manager
                 .StepService
                 .GetOneStepByIdAsync(id, false);
 
             if (step == null)
                 return NotFound();
+
+            if (stepIds.Contains(id))
+                step.Status = true;
 
             return Ok(step);
         }

@@ -17,27 +17,48 @@ namespace Repositories.EFCore
         public void UpdateOneStep(Step step) => Update(step);
 
 
-        public async Task<List<Step>> GetAllStepsAsync(StepParameters stepParameters, bool trackChanges)
+        public async Task<List<Step>> GetAllStepsAsync(StepParameters stepParameters, List<int> stepIds, bool trackChanges)
         {
+            IQueryable<Step> query = FindAll(trackChanges)
+                .Search(stepParameters.SearchTerm)
+                .OrderBy(s => s.Id);
+
             if (stepParameters.CourseId != null)
             {
-                var steps = await FindAll(trackChanges)
-                .FilterStepsWithCourseId((int)stepParameters.CourseId)
-                .Search(stepParameters.SearchTerm)
-                .OrderBy(s => s.Id)
-                .ToListAsync();
-
-                return steps;
+                query = query.FilterStepsWithCourseId((int)stepParameters.CourseId);
             }
-            else
+
+            var steps = await query.ToListAsync();
+
+            if (stepIds != null && stepIds.Any())
             {
-                var steps = await FindAll(trackChanges)
-                    .Search(stepParameters.SearchTerm)
-                    .OrderBy(s => s.Id)
-                    .ToListAsync();
-
-                return steps;
+                foreach (var step in steps)
+                {
+                    step.Status = stepIds.Contains(step.Id);
+                }
             }
+
+            return steps;
+
+            //if (stepParameters.CourseId != null)
+            //{
+            //    var steps = await FindAll(trackChanges)
+            //    .FilterStepsWithCourseId((int)stepParameters.CourseId)
+            //    .Search(stepParameters.SearchTerm)
+            //    .OrderBy(s => s.Id)
+            //    .ToListAsync();
+
+            //    return steps;
+            //}
+            //else
+            //{
+            //    var steps = await FindAll(trackChanges)
+            //        .Search(stepParameters.SearchTerm)
+            //        .OrderBy(s => s.Id)
+            //        .ToListAsync();
+
+            //    return steps;
+            //}
         }
 
         public async Task<Step> GetOneStepByIdAsync(int stepId, bool trackChanges) =>

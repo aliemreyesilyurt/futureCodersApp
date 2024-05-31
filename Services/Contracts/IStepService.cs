@@ -5,7 +5,7 @@ namespace Services.Contracts
 {
     public interface IStepService
     {
-        Task<IEnumerable<StepDto>> GetAllStepsAsync(StepParameters stepParameters, bool trackChanges);
+        Task<IEnumerable<StepDto>> GetAllStepsAsync(StepParameters stepParameters, List<int> stepIds, bool trackChanges);
         Task<StepDto> GetOneStepByIdAsync(int id, bool trackChanges);
         Task<StepDto> CreateOneStepAsync(StepDtoForInsertion stepDto);
         Task UpdateOneStepAsync(int id, StepDtoForUpdate stepDto, bool trackChanges);
