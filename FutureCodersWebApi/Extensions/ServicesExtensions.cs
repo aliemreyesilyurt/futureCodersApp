@@ -173,6 +173,7 @@ namespace WebApi.Extensions
             services.AddScoped<ICourseRankRepository, CourseRankRepository>();
             services.AddScoped<IBlogRepository, BlogRepository>();
             services.AddScoped<IStepRepository, StepRepository>();
+            services.AddScoped<IUserStepRepository, UserStepRepository>();
             services.AddScoped<IReviewRepository, ReviewRepository>();
         }
 
@@ -181,6 +182,7 @@ namespace WebApi.Extensions
             services.AddScoped<ICourseService, CourseManager>();
             services.AddScoped<IBlogService, BlogManager>();
             services.AddScoped<IStepService, StepManager>();
+            services.AddScoped<IUserStepService, UserStepManager>();
             services.AddScoped<IReviewService, ReviewManager>();
             services.AddScoped<IAuthenticationService, AuthenticationManager>();
         }

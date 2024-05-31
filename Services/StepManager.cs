@@ -26,6 +26,9 @@ namespace Services
         // Create
         public async Task<StepDto> CreateOneStepAsync(StepDtoForInsertion stepDto)
         {
+            //check course
+            await GetOneCourseByIdAndCheckExist(stepDto.CourseId, false);
+
             var entity = _mapper.Map<Step>(stepDto);
             _manager.Step.CreateOneStep(entity);
             await _manager.SaveAsync();
@@ -50,11 +53,18 @@ namespace Services
         }
 
         // Get-All
-        public async Task<IEnumerable<StepDto>> GetAllStepsAsync(StepParameters stepParameters, bool trackChanges)
+        public async Task<IEnumerable<StepDto>> GetAllStepsAsync(StepParameters stepParameters, List<int> stepIds, bool trackChanges)
         {
+            //check course
+            if (stepParameters.CourseId != null)
+            {
+                var courseId = (int)stepParameters.CourseId;
+                await GetOneCourseByIdAndCheckExist(courseId, trackChanges);
+            }
+
             var stepsWithParams = await _manager
                 .Step
-                .GetAllStepsAsync(stepParameters, trackChanges);
+                .GetAllStepsAsync(stepParameters, stepIds, trackChanges);
 
             var stepsDto = _mapper.Map<IEnumerable<StepDto>>(stepsWithParams);
 
@@ -132,6 +142,16 @@ namespace Services
                 throw new StepNotFoundException(id);
 
             return entity;
+        }
+
+        private async Task GetOneCourseByIdAndCheckExist(int courseId, bool trackChanges)
+        {
+            var course = await _manager
+            .Course
+            .GetOneCourseByIdAsync(courseId, false);
+
+            if (course == null)
+                throw new CourseNotFoundException(courseId);
         }
 
 

@@ -108,7 +108,7 @@ namespace Presentation.Controllers
             return NoContent();
         }
 
-        // Patch
+        // Patch-Course
         [HttpPatch("{id:int}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PartiallyUpdateOneCourseAsync([FromRoute(Name = "id")] int id, [FromBody] JsonPatchDocument<CourseDtoForUpdate> coursePatch)
@@ -132,7 +132,7 @@ namespace Presentation.Controllers
             return NoContent();
         }
 
-        // Patch
+        // Patch-Image
         [HttpPatch("image/{id:int}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateOneCourseImageAsync([FromRoute(Name = "id")] int id, IFormFile file)
