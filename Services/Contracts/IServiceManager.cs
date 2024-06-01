@@ -6,6 +6,7 @@
         IBlogService BlogService { get; }
         IStepService StepService { get; }
         IUserStepService UserStepService { get; }
+        IUserCourseService UserCourseService { get; }
         IReviewService ReviewService { get; }
         IAuthenticationService AuthenticationService { get; }
     }

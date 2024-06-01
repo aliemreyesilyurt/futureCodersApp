@@ -9,6 +9,5 @@ namespace Repositories.Contracts
         Task<UserStepDto> GetAllUserStepsAsync(string userId, bool trackChanges);
         Task<UserStep> GetOneUserStepAsync(int stepId, bool trackChanges);
         void CreateOneUserStep(UserStep userStep);
-        void DeleteOneUserStep(UserStep userStep);
     }
 }

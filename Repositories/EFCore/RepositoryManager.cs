@@ -9,6 +9,7 @@ namespace Repositories.EFCore
         private readonly ICourseRankRepository _courseRankRepository;
         private readonly IBlogRepository _blogRepository;
         private readonly IUserStepRepository _userStepRepository;
+        private readonly IUserCourseRepository _userCourseRepository;
         private readonly IStepRepository _stepRepository;
         private readonly IReviewRepository _reviewRepository;
 
@@ -18,7 +19,8 @@ namespace Repositories.EFCore
             IBlogRepository blogRepository,
             IStepRepository stepRepository,
             IReviewRepository reviewRepository,
-            IUserStepRepository userStepRepository)
+            IUserStepRepository userStepRepository,
+            IUserCourseRepository userCourseRepository)
         {
             _context = context;
             _courseRepository = courseRepository;
@@ -27,6 +29,7 @@ namespace Repositories.EFCore
             _stepRepository = stepRepository;
             _reviewRepository = reviewRepository;
             _userStepRepository = userStepRepository;
+            _userCourseRepository = userCourseRepository;
         }
 
         public ICourseRepository Course => _courseRepository;
@@ -34,6 +37,7 @@ namespace Repositories.EFCore
         public IBlogRepository Blog => _blogRepository;
         public IStepRepository Step => _stepRepository;
         public IUserStepRepository UserStep => _userStepRepository;
+        public IUserCourseRepository UserCourse => _userCourseRepository;
         public IReviewRepository Review => _reviewRepository;
 
         public async Task SaveAsync()

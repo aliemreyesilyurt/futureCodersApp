@@ -11,8 +11,5 @@ namespace Entities.DataTransferObjects
 
         [Required(ErrorMessage = "Course id is a required field.")]
         public int CourseId { get; init; }
-
-        [Required(ErrorMessage = "User id is a required field.")]
-        public string UserId { get; init; }
     }
 }

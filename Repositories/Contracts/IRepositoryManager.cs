@@ -7,6 +7,7 @@
         IBlogRepository Blog { get; }
         IStepRepository Step { get; }
         IUserStepRepository UserStep { get; }
+        IUserCourseRepository UserCourse { get; }
         IReviewRepository Review { get; }
         Task SaveAsync();
     }

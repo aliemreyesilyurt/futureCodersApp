@@ -78,7 +78,9 @@ namespace Presentation.Controllers
                 return NotFound();
 
             if (stepIds.Contains(id))
+            {
                 step.Status = true;
+            }
 
             return Ok(step);
         }
@@ -172,16 +174,6 @@ namespace Presentation.Controllers
             }
 
             await _manager.StepService.UpdateOneStepVideoAsync(id, uniqueFileName, false);
-
-            return NoContent();
-        }
-
-        // Patch-Status
-        [HttpPatch("status/{id:int}")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateOneBlogStatusAsync([FromRoute(Name = "id")] int id)
-        {
-            await _manager.StepService.UpdateOneStepStatusAsync(id, false);
 
             return NoContent();
         }

@@ -39,26 +39,6 @@ namespace Repositories.EFCore
             }
 
             return steps;
-
-            //if (stepParameters.CourseId != null)
-            //{
-            //    var steps = await FindAll(trackChanges)
-            //    .FilterStepsWithCourseId((int)stepParameters.CourseId)
-            //    .Search(stepParameters.SearchTerm)
-            //    .OrderBy(s => s.Id)
-            //    .ToListAsync();
-
-            //    return steps;
-            //}
-            //else
-            //{
-            //    var steps = await FindAll(trackChanges)
-            //        .Search(stepParameters.SearchTerm)
-            //        .OrderBy(s => s.Id)
-            //        .ToListAsync();
-
-            //    return steps;
-            //}
         }
 
         public async Task<Step> GetOneStepByIdAsync(int stepId, bool trackChanges) =>
