@@ -1,5 +1,8 @@
-﻿namespace Entities.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Entities.Models
 {
+    [Table("UserCourse", Schema = "user")]
     public class UserCourse
     {
         public int Id { get; set; }

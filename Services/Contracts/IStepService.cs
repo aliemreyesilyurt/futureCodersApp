@@ -9,7 +9,6 @@ namespace Services.Contracts
         Task<StepDto> GetOneStepByIdAsync(int id, bool trackChanges);
         Task<StepDto> CreateOneStepAsync(StepDtoForInsertion stepDto);
         Task UpdateOneStepAsync(int id, StepDtoForUpdate stepDto, bool trackChanges);
-        Task UpdateOneStepStatusAsync(int id, bool trackChanges);
         Task UpdateOneStepVideoAsync(int id, string fileName, bool trackChanges);
         Task DeleteOneStepAsync(int id, bool trackChanges);
     }

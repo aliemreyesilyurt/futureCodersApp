@@ -6,5 +6,8 @@ namespace Entities.DataTransferObjects
     {
         [Required]
         public int Id { get; init; }
+
+        [Required]
+        public string UserId { get; init; }
     }
 }

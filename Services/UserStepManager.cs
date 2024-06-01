@@ -21,8 +21,17 @@ namespace Services
         }
 
         // Create
-        public async Task<UserStep> CreateOneUserStepAsync(UserStepDtoForInsertion userStepDto)
+        public async Task<UserStep> CreateOneUserStepAsync(string userId, int stepId)
         {
+            //check-step
+            await CheckStepById(stepId, false);
+
+            var userStepDto = new UserStepDtoForInsertion()
+            {
+                UserId = userId,
+                StepId = stepId
+            };
+
             var entity = _mapper.Map<UserStep>(userStepDto);
             _manager.UserStep.Create(entity);
             await _manager.SaveAsync();
@@ -41,28 +50,16 @@ namespace Services
 
         }
 
-        // Delete
-        public async Task DeleteOneUserStepAsync(int stepId, bool trackChanges)
-        {
-            //check entity
-            var userStep = await GetOneUserStepByIdAndCheckExist(stepId, trackChanges);
-
-            _manager.UserStep.DeleteOneUserStep(userStep);
-            await _manager.SaveAsync();
-        }
-
-        // Check
-        private async Task<UserStep> GetOneUserStepByIdAndCheckExist(int stepId, bool trackChanges)
+        // Check-Step
+        private async Task CheckStepById(int stepId, bool trackChanges)
         {
             //check entity
             var entity = await _manager
-                .UserStep
-                .GetOneUserStepAsync(stepId, trackChanges);
+                .Step
+                .GetOneStepByIdAsync(stepId, trackChanges);
 
             if (entity is null)
-                throw new UserStepNotFoundException(stepId);
-
-            return entity;
+                throw new StepNotFoundException(stepId);
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Presentation.Controllers
         // Register
         [HttpPost]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> RegisterUser([FromBody] UserForRegistirationDto userForRegistirationDto)
+        public async Task<IActionResult> RegisterUser([FromQuery] UserForRegistirationDto userForRegistirationDto)
         {
             var result = await _manager
                 .AuthenticationService

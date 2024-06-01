@@ -174,6 +174,7 @@ namespace WebApi.Extensions
             services.AddScoped<IBlogRepository, BlogRepository>();
             services.AddScoped<IStepRepository, StepRepository>();
             services.AddScoped<IUserStepRepository, UserStepRepository>();
+            services.AddScoped<IUserCourseRepository, UserCourseRepository>();
             services.AddScoped<IReviewRepository, ReviewRepository>();
         }
 
@@ -183,6 +184,7 @@ namespace WebApi.Extensions
             services.AddScoped<IBlogService, BlogManager>();
             services.AddScoped<IStepService, StepManager>();
             services.AddScoped<IUserStepService, UserStepManager>();
+            services.AddScoped<IUserCourseService, UserCourseManager>();
             services.AddScoped<IReviewService, ReviewManager>();
             services.AddScoped<IAuthenticationService, AuthenticationManager>();
         }

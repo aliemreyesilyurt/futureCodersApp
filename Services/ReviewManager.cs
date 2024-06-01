@@ -22,9 +22,10 @@ namespace Services
         }
 
         // Create
-        public async Task<ReviewDto> CreateOneReviewAsync(ReviewDtoForInsertion reviewDto)
+        public async Task<ReviewDto> CreateOneReviewAsync(ReviewDtoForInsertion reviewDto, string userId)
         {
             var entity = _mapper.Map<Review>(reviewDto);
+            entity.UserId = userId;
             _manager.Review.CreateOneReview(entity);
             await _manager.SaveAsync();
 

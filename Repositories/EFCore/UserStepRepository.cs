@@ -14,8 +14,6 @@ namespace Repositories.EFCore
 
         public void CreateOneUserStep(UserStep userStep) => Create(userStep);
 
-        public void DeleteOneUserStep(UserStep userStep) => Delete(userStep);
-
         public async Task<UserStepDto> GetAllUserStepsAsync(string userId, bool trackChanges)
         {
             var stepIds = await FindAll(trackChanges)

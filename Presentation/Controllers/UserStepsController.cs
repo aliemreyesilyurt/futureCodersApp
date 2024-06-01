@@ -1,8 +1,8 @@
-﻿using Entities.DataTransferObjects;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.ActionFilters;
 using Services.Contracts;
+using System.Security.Claims;
 
 namespace Presentation.Controllers
 {
@@ -33,27 +33,16 @@ namespace Presentation.Controllers
 
         // Create
         [HttpPost]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> CreateOneUserStepAsync([FromQuery] UserStepDtoForInsertion userStepDto)
+        [Authorize(Roles = "User")]
+        public async Task<IActionResult> CreateOneUserStepAsync([FromQuery] int stepId)
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             var userStep = await _manager
                 .UserStepService
-                .CreateOneUserStepAsync(userStepDto);
+                .CreateOneUserStepAsync(userId, stepId);
 
             return StatusCode(201, userStep);
-        }
-
-        // Delete
-        [HttpDelete("{id:int}")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DeleteOneUserStepAsync([FromQuery(Name = "id")] int stepId)
-        {
-            await _manager
-                .UserStepService
-                .DeleteOneUserStepAsync(stepId, false);
-
-            return NoContent();
         }
     }
 }

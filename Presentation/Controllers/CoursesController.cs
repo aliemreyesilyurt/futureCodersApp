@@ -1,4 +1,5 @@
 ﻿using Entities.DataTransferObjects;
+using Entities.Exceptions;
 using Entities.RequestFeatures;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -62,6 +63,9 @@ namespace Presentation.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateOneCourseAsync([FromForm] CourseDtoForInsertion courseDto, IFormFile file)
         {
+            // check-rank-ids
+            CheckRankIds(courseDto.RankIds);
+
             var result = await CheckAndPathingFile(courseDto, file);
 
             if (result.isValidate == false)
@@ -208,6 +212,16 @@ namespace Presentation.Controllers
 
             var extension = Path.GetExtension(file.FileName).ToLower();
             return extension == ".jpg" || extension == ".png" || extension == ".jpeg";
+        }
+
+        // Check Rank Ids
+        private void CheckRankIds(ICollection<int> rankIds)
+        {
+            foreach (var rankId in rankIds)
+            {
+                if (rankId != 1 && rankId != 2)
+                    throw new InvalidRankBadRequestException();
+            }
         }
     }
 }

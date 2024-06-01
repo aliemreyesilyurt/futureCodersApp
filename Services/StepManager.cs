@@ -100,18 +100,6 @@ namespace Services
             await _manager.SaveAsync();
         }
 
-        // Patch-Status
-        public async Task UpdateOneStepStatusAsync(int id, bool trackChanges)
-        {
-            //check entity
-            var step = await GetOneStepByIdAndCheckExist(id, trackChanges);
-
-            step.Status = true;
-
-            _manager.Step.Update(step);
-            await _manager.SaveAsync();
-        }
-
         // Patch-Video
         public async Task UpdateOneStepVideoAsync(int id, string fileName, bool trackChanges)
         {
