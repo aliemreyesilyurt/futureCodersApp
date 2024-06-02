@@ -12,6 +12,7 @@
         IExamTypeRepository ExamType { get; }
         IQuestionOptionRepository QuestionOption { get; }
         IQuestionRepository Question { get; }
+        IQuestionAnswerRepository QuestionAnswer { get; }
         Task SaveAsync();
     }
 }

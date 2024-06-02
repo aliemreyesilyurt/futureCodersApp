@@ -123,7 +123,7 @@ namespace Services
                 throw new InvalidOperationException("There is already a correct answer for this question.");
             }
 
-            if (questionOptions.Count() >= 5)
+            if (questionOptions.Count() >= 4)
             {
                 throw new InvalidOperationException("Cannot add more than 5 options for a question.");
             }

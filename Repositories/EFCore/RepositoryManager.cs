@@ -15,6 +15,7 @@ namespace Repositories.EFCore
         private readonly IExamTypeRepository _examTypeRepository;
         private readonly IQuestionOptionRepository _questionOptionRepository;
         private readonly IQuestionRepository _questionRepository;
+        private readonly IQuestionAnswerRepository _questionAnswerRepository;
 
         public RepositoryManager(RepositoryContext context,
             ICourseRepository courseRepository,
@@ -26,7 +27,8 @@ namespace Repositories.EFCore
             IUserCourseRepository userCourseRepository,
             IExamTypeRepository examTypeRepository,
             IQuestionOptionRepository questionOptionRepository,
-            IQuestionRepository questionRepository)
+            IQuestionRepository questionRepository,
+            IQuestionAnswerRepository questionAnswerRepository)
         {
             _context = context;
             _courseRepository = courseRepository;
@@ -39,6 +41,7 @@ namespace Repositories.EFCore
             _examTypeRepository = examTypeRepository;
             _questionOptionRepository = questionOptionRepository;
             _questionRepository = questionRepository;
+            _questionAnswerRepository = questionAnswerRepository;
         }
 
         public ICourseRepository Course => _courseRepository;
@@ -51,6 +54,7 @@ namespace Repositories.EFCore
         public IExamTypeRepository ExamType => _examTypeRepository;
         public IQuestionOptionRepository QuestionOption => _questionOptionRepository;
         public IQuestionRepository Question => _questionRepository;
+        public IQuestionAnswerRepository QuestionAnswer => _questionAnswerRepository;
         public async Task SaveAsync()
         {
             await _context.SaveChangesAsync();

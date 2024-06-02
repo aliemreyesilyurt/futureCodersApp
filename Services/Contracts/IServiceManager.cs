@@ -11,6 +11,7 @@
         IExamTypeService ExamTypeService { get; }
         IQuestionOptionService QuestionOptionService { get; }
         IQuestionService QuestionService { get; }
+        IQuestionAnswerService QuestionAnswerService { get; }
         IAuthenticationService AuthenticationService { get; }
     }
 }

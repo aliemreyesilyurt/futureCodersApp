@@ -179,6 +179,7 @@ namespace WebApi.Extensions
             services.AddScoped<IExamTypeRepository, ExamTypeRepository>();
             services.AddScoped<IQuestionOptionRepository, QuestionOptionRepository>();
             services.AddScoped<IQuestionRepository, QuestionRepository>();
+            services.AddScoped<IQuestionAnswerRepository, QuestionAnswerRepository>();
         }
 
         public static void RegisterServices(this IServiceCollection services)
@@ -192,6 +193,7 @@ namespace WebApi.Extensions
             services.AddScoped<IExamTypeService, ExamTypeManager>();
             services.AddScoped<IQuestionOptionService, QuestionOptionManager>();
             services.AddScoped<IQuestionService, QuestionManager>();
+            services.AddScoped<IQuestionAnswerService, QuestionAnswerManager>();
             services.AddScoped<IAuthenticationService, AuthenticationManager>();
         }
     }
