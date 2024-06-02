@@ -8,6 +8,9 @@
         IUserStepService UserStepService { get; }
         IUserCourseService UserCourseService { get; }
         IReviewService ReviewService { get; }
+        IExamTypeService ExamTypeService { get; }
+        IQuestionOptionService QuestionOptionService { get; }
+        IQuestionService QuestionService { get; }
         IAuthenticationService AuthenticationService { get; }
     }
 }

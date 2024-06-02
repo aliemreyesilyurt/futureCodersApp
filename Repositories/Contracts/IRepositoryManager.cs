@@ -9,6 +9,9 @@
         IUserStepRepository UserStep { get; }
         IUserCourseRepository UserCourse { get; }
         IReviewRepository Review { get; }
+        IExamTypeRepository ExamType { get; }
+        IQuestionOptionRepository QuestionOption { get; }
+        IQuestionRepository Question { get; }
         Task SaveAsync();
     }
 }

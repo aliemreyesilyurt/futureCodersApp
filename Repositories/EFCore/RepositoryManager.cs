@@ -12,6 +12,9 @@ namespace Repositories.EFCore
         private readonly IUserCourseRepository _userCourseRepository;
         private readonly IStepRepository _stepRepository;
         private readonly IReviewRepository _reviewRepository;
+        private readonly IExamTypeRepository _examTypeRepository;
+        private readonly IQuestionOptionRepository _questionOptionRepository;
+        private readonly IQuestionRepository _questionRepository;
 
         public RepositoryManager(RepositoryContext context,
             ICourseRepository courseRepository,
@@ -20,7 +23,10 @@ namespace Repositories.EFCore
             IStepRepository stepRepository,
             IReviewRepository reviewRepository,
             IUserStepRepository userStepRepository,
-            IUserCourseRepository userCourseRepository)
+            IUserCourseRepository userCourseRepository,
+            IExamTypeRepository examTypeRepository,
+            IQuestionOptionRepository questionOptionRepository,
+            IQuestionRepository questionRepository)
         {
             _context = context;
             _courseRepository = courseRepository;
@@ -30,6 +36,9 @@ namespace Repositories.EFCore
             _reviewRepository = reviewRepository;
             _userStepRepository = userStepRepository;
             _userCourseRepository = userCourseRepository;
+            _examTypeRepository = examTypeRepository;
+            _questionOptionRepository = questionOptionRepository;
+            _questionRepository = questionRepository;
         }
 
         public ICourseRepository Course => _courseRepository;
@@ -39,7 +48,9 @@ namespace Repositories.EFCore
         public IUserStepRepository UserStep => _userStepRepository;
         public IUserCourseRepository UserCourse => _userCourseRepository;
         public IReviewRepository Review => _reviewRepository;
-
+        public IExamTypeRepository ExamType => _examTypeRepository;
+        public IQuestionOptionRepository QuestionOption => _questionOptionRepository;
+        public IQuestionRepository Question => _questionRepository;
         public async Task SaveAsync()
         {
             await _context.SaveChangesAsync();

@@ -11,6 +11,9 @@ namespace Services
         private readonly IReviewService _reviewService;
         private readonly IUserStepService _userStepService;
         private readonly IUserCourseService _userCourseService;
+        private readonly IExamTypeService _examTypeService;
+        private readonly IQuestionOptionService _questionOptionService;
+        private readonly IQuestionService _questionService;
 
         public ServiceManager(ICourseService courseService,
             IAuthenticationService authenticationService,
@@ -18,7 +21,10 @@ namespace Services
             IStepService stepService,
             IReviewService reviewService,
             IUserStepService userStepService,
-            IUserCourseService userCourseService)
+            IUserCourseService userCourseService,
+            IExamTypeService examTypeService,
+            IQuestionOptionService questionOptionService,
+            IQuestionService questionService)
         {
             _courseService = courseService;
             _authenticationService = authenticationService;
@@ -27,6 +33,9 @@ namespace Services
             _reviewService = reviewService;
             _userStepService = userStepService;
             _userCourseService = userCourseService;
+            _examTypeService = examTypeService;
+            _questionOptionService = questionOptionService;
+            _questionService = questionService;
         }
 
         public ICourseService CourseService => _courseService;
@@ -35,6 +44,9 @@ namespace Services
         public IUserStepService UserStepService => _userStepService;
         public IUserCourseService UserCourseService => _userCourseService;
         public IReviewService ReviewService => _reviewService;
+        public IExamTypeService ExamTypeService => _examTypeService;
+        public IQuestionOptionService QuestionOptionService => _questionOptionService;
+        public IQuestionService QuestionService => _questionService;
         public IAuthenticationService AuthenticationService => _authenticationService;
     }
 }

@@ -44,7 +44,7 @@ namespace Presentation.Controllers
                 return BadRequest();
 
             // filePath
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "Media/Steps", fileName);
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "Media/Blogs", fileName);
 
             // ContentType : (MIME)
             var provider = new FileExtensionContentTypeProvider();

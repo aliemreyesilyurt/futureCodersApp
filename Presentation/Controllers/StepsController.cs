@@ -216,7 +216,5 @@ namespace Presentation.Controllers
             var extension = Path.GetExtension(file.FileName).ToLower();
             return extension == ".mp4" || extension == ".mpeg" || extension == ".avi";
         }
-
-
     }
 }

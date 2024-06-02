@@ -7,7 +7,7 @@ namespace Entities.Models
     {
         public int Id { get; set; }
         public string QuestionText { get; set; }
-        public QuestionType QuestionType { get; set; }
-        public ICollection<QuestionOption> QuestionOptions { get; set; }
+        public int ExamTypeId { get; set; }
+        public ExamType ExamType { get; set; }
     }
 }
