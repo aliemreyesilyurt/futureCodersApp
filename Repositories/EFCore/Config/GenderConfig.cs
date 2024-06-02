@@ -11,8 +11,7 @@ namespace Repositories.EFCore.Config
 
             builder.HasData(
                 new Gender { Id = 1, Name = "Male" },
-                new Gender { Id = 2, Name = "Female" },
-                new Gender { Id = 3, Name = "Other" }
+                new Gender { Id = 2, Name = "Female" }
             );
         }
     }

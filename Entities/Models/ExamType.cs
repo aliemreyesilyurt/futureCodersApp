@@ -2,8 +2,8 @@
 
 namespace Entities.Models
 {
-    [Table("QuestionType", Schema = "exam")]
-    public class QuestionType
+    [Table("ExamType", Schema = "exam")]
+    public class ExamType
     {
         public int Id { get; set; }
         public string Name { get; set; }

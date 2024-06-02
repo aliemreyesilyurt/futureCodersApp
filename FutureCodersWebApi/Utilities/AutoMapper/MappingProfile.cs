@@ -33,6 +33,17 @@ namespace WebApi.Utilities.AutoMapper
             CreateMap<UserDtoForUpdate, User>().ReverseMap();
             CreateMap<User, UserDto>();
             CreateMap<UserForRegistirationDto, User>();
+
+            CreateMap<ExamType, ExamTypeDto>();
+            CreateMap<ExamTypeDtoForInsertion, ExamType>();
+
+            CreateMap<QuestionOptionDtoForUpdate, QuestionOption>().ReverseMap();
+            CreateMap<QuestionOption, QuestionOptionDto>();
+            CreateMap<QuestionOptionDtoForInsertion, QuestionOption>();
+
+            CreateMap<QuestionDtoForUpdate, Question>().ReverseMap();
+            CreateMap<Question, QuestionDto>();
+            CreateMap<QuestionDtoForInsertion, Question>();
         }
     }
 }

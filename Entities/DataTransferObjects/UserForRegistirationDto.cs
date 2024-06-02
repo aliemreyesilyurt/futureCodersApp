@@ -13,6 +13,7 @@ namespace Entities.DataTransferObjects
         [Required(ErrorMessage = "Password is required.")]
         public string? Password { get; init; }
 
+        [Required(ErrorMessage = "Email is required.")]
         public string? Email { get; init; }
         public bool? IsAvailable { get; init; } = false;
 

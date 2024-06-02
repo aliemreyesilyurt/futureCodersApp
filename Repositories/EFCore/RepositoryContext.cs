@@ -18,7 +18,7 @@ namespace Repositories.EFCore
         public DbSet<Question> Question { get; set; }
         public DbSet<QuestionAnswer> QuestionAnswer { get; set; }
         public DbSet<QuestionOption> QuestionOption { get; set; }
-        public DbSet<QuestionType> QuestionType { get; set; }
+        public DbSet<ExamType> ExamType { get; set; }
         public DbSet<Rank> Rank { get; set; }
         public DbSet<Review> Review { get; set; }
         public DbSet<Step> Step { get; set; }
@@ -33,6 +33,7 @@ namespace Repositories.EFCore
             modelBuilder.ApplyConfiguration(new RankConfig());
             modelBuilder.ApplyConfiguration(new GenderConfig());
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
+            modelBuilder.ApplyConfiguration(new ExamTypeConfig());
         }
     }
 }

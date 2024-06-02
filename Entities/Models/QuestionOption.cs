@@ -7,8 +7,8 @@ namespace Entities.Models
     {
         public int Id { get; set; }
         public string Answer { get; set; }
-        public bool IsTrue { get; set; }
-        public int OrderNumber { get; set; }
+        public bool IsTrue { get; set; } = false;
+
         public int QuestionId { get; set; }
         public Question Question { get; set; }
     }
