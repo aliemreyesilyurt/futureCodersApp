@@ -12,7 +12,7 @@ using Repositories.EFCore;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20240602165254_init")]
+    [Migration("20240602213214_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -490,15 +490,15 @@ namespace WebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "466011c2-ed2e-4110-8bdd-474673b720e5",
-                            ConcurrencyStamp = "deffbe4d-9557-4c3b-9ef9-1a6061bd7c82",
+                            Id = "55723859-8f44-4912-a52b-669384d96d44",
+                            ConcurrencyStamp = "48975101-0933-4620-a85f-6eea5e50a376",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "31ba84a7-b3ab-41b7-a891-09439b19f5e2",
-                            ConcurrencyStamp = "65efca4c-754a-4974-8893-4b6b137e0b22",
+                            Id = "b6399c74-1499-4623-9019-07076a6043a4",
+                            ConcurrencyStamp = "c10ba9ae-1c74-4e02-a6c7-d35e8af82b02",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });

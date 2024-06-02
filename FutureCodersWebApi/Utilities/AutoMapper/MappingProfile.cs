@@ -44,6 +44,9 @@ namespace WebApi.Utilities.AutoMapper
             CreateMap<QuestionDtoForUpdate, Question>().ReverseMap();
             CreateMap<Question, QuestionDto>();
             CreateMap<QuestionDtoForInsertion, Question>();
+
+            CreateMap<QuestionAnswer, QuestionAnswerDto>();
+            CreateMap<QuestionAnswerDtoForInsertion, QuestionAnswer>();
         }
     }
 }

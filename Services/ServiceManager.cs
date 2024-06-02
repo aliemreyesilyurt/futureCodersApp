@@ -14,6 +14,7 @@ namespace Services
         private readonly IExamTypeService _examTypeService;
         private readonly IQuestionOptionService _questionOptionService;
         private readonly IQuestionService _questionService;
+        private readonly IQuestionAnswerService _questionAnswerService;
 
         public ServiceManager(ICourseService courseService,
             IAuthenticationService authenticationService,
@@ -24,7 +25,8 @@ namespace Services
             IUserCourseService userCourseService,
             IExamTypeService examTypeService,
             IQuestionOptionService questionOptionService,
-            IQuestionService questionService)
+            IQuestionService questionService,
+            IQuestionAnswerService questionAnswerService)
         {
             _courseService = courseService;
             _authenticationService = authenticationService;
@@ -36,6 +38,7 @@ namespace Services
             _examTypeService = examTypeService;
             _questionOptionService = questionOptionService;
             _questionService = questionService;
+            _questionAnswerService = questionAnswerService;
         }
 
         public ICourseService CourseService => _courseService;
@@ -47,6 +50,7 @@ namespace Services
         public IExamTypeService ExamTypeService => _examTypeService;
         public IQuestionOptionService QuestionOptionService => _questionOptionService;
         public IQuestionService QuestionService => _questionService;
+        public IQuestionAnswerService QuestionAnswerService => _questionAnswerService;
         public IAuthenticationService AuthenticationService => _authenticationService;
     }
 }
